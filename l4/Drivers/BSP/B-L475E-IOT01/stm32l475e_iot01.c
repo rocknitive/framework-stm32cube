@@ -6,39 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V.
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted, provided that the following conditions are met:
-  *
-  * 1. Redistribution of source code must retain the above copyright notice,
-  *    this list of conditions and the following disclaimer.
-  * 2. Redistributions in binary form must reproduce the above copyright notice,
-  *    this list of conditions and the following disclaimer in the documentation
-  *    and/or other materials provided with the distribution.
-  * 3. Neither the name of STMicroelectronics nor the names of other
-  *    contributors to this software may be used to endorse or promote products
-  *    derived from this software without specific written permission.
-  * 4. This software, including modifications and/or derivative works of this
-  *    software, must execute solely and exclusively on microcontroller or
-  *    microprocessor devices manufactured by or for STMicroelectronics.
-  * 5. Redistribution and use of this software other than as permitted under
-  *    this license is void and will automatically terminate your rights under
-  *    this license.
-  *
-  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT
-  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
-  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT
-  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -66,7 +40,7 @@
    */
 #define __STM32L475E_IOT01_BSP_VERSION_MAIN   (0x01) /*!< [31:24] main version */
 #define __STM32L475E_IOT01_BSP_VERSION_SUB1   (0x01) /*!< [23:16] sub1 version */
-#define __STM32L475E_IOT01_BSP_VERSION_SUB2   (0x03) /*!< [15:8]  sub2 version */
+#define __STM32L475E_IOT01_BSP_VERSION_SUB2   (0x06) /*!< [15:8]  sub2 version */
 #define __STM32L475E_IOT01_BSP_VERSION_RC     (0x00) /*!< [7:0]  release candidate */
 #define __STM32L475E_IOT01_BSP_VERSION        ((__STM32L475E_IOT01_BSP_VERSION_MAIN << 24)\
                                                  |(__STM32L475E_IOT01_BSP_VERSION_SUB1 << 16)\
@@ -153,7 +127,7 @@ void     NFC_IO_Delay(uint32_t Delay);
 
 /**
   * @brief  This method returns the STM32L475E IOT01 BSP Driver revision
-  * @retval version: 0xXYZR (8bits for each decimal, R for RC)
+  * @retval version  0xXYZR (8bits for each decimal, R for RC)
   */
 uint32_t BSP_GetVersion(void)
 {
@@ -161,10 +135,10 @@ uint32_t BSP_GetVersion(void)
 }
 
 /**
-  * @brief  Configures LEDs.
-  * @param  Led: LED to be configured. 
-  *          This parameter can be one of the following values:
-  *            @arg  LED2
+  * @brief  Initializes LED GPIO.
+  * @param  Led  LED to be initialized. 
+  *              This parameter can be one of the following values:
+  *                @arg  LED2
   */
 void BSP_LED_Init(Led_TypeDef Led)
 {
@@ -181,10 +155,10 @@ void BSP_LED_Init(Led_TypeDef Led)
 }
 
 /**
-  * @brief  DeInit LEDs.
-  * @param  Led: LED to be configured. 
-  *          This parameter can be one of the following values:
-  *            @arg  LED2
+  * @brief  DeInitializes LED GPIO.
+  * @param  Led  LED to be deinitialized. 
+  *              This parameter can be one of the following values:
+  *                @arg  LED2
   */
 void BSP_LED_DeInit(Led_TypeDef Led)
 {
@@ -199,10 +173,10 @@ void BSP_LED_DeInit(Led_TypeDef Led)
 }
 
 /**
-  * @brief  Turns selected LED On.
-  * @param  Led: LED to be set on 
-  *          This parameter can be one of the following values:
-  *            @arg  LED2
+  * @brief  Turns the selected LED On.
+  * @param  Led  LED to be set on 
+  *              This parameter can be one of the following values:
+  *                @arg  LED2
   */
 void BSP_LED_On(Led_TypeDef Led)
 {
@@ -210,10 +184,10 @@ void BSP_LED_On(Led_TypeDef Led)
 }
 
 /**
-  * @brief  Turns selected LED Off. 
-  * @param  Led: LED to be set off
-  *          This parameter can be one of the following values:
-  *            @arg  LED2
+  * @brief  Turns the selected LED Off. 
+  * @param  Led  LED to be set off
+  *              This parameter can be one of the following values:
+  *                @arg  LED2
   */
 void BSP_LED_Off(Led_TypeDef Led)
 {
@@ -222,9 +196,9 @@ void BSP_LED_Off(Led_TypeDef Led)
 
 /**
   * @brief  Toggles the selected LED.
-  * @param  Led: LED to be toggled
-  *          This parameter can be one of the following values:
-  *            @arg  LED2
+  * @param  Led  LED to be toggled
+  *              This parameter can be one of the following values:
+  *                @arg  LED2
   */
 void BSP_LED_Toggle(Led_TypeDef Led)
 {
@@ -232,15 +206,15 @@ void BSP_LED_Toggle(Led_TypeDef Led)
 }
 
 /**
-  * @brief  Configures button GPIO and EXTI Line.
-  * @param  Button: Button to be configured
-  *          This parameter can be one of the following values:
-  *            @arg  BUTTON_WAKEUP: Wakeup Push Button
-  * @param  ButtonMode: Button mode
-  *          This parameter can be one of the following values:
-  *            @arg  BUTTON_MODE_GPIO: Button will be used as simple IO
-  *            @arg  BUTTON_MODE_EXTI: Button will be connected to EXTI line 
-  *                                    with interrupt generation capability  
+  * @brief  Initializes push button GPIO and EXTI Line.
+  * @param  Button  Button to be configured
+  *                 This parameter can be one of the following values:
+  *                   @arg  BUTTON_USER  User Push Button
+  * @param  ButtonMode Button mode
+  *                    This parameter can be one of the following values:
+  *                      @arg  BUTTON_MODE_GPIO  Button will be used as simple IO
+  *                      @arg  BUTTON_MODE_EXTI  Button will be connected to EXTI line 
+  *                                              with interrupt generation capability  
   */
 void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode)
 {
@@ -277,10 +251,10 @@ void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode)
 }
 
 /**
-  * @brief  Push Button DeInit.
-  * @param  Button: Button to be configured
-  *          This parameter can be one of the following values:
-  *            @arg  BUTTON_WAKEUP: Wakeup Push Button 
+  * @brief  DeInitializes push button.
+  * @param  Button  Button to be configured
+  *                 This parameter can be one of the following values:
+  *                   @arg  BUTTON_USER  User Push Button 
   * @note PB DeInit does not disable the GPIO clock
   */
 void BSP_PB_DeInit(Button_TypeDef Button)
@@ -295,9 +269,9 @@ void BSP_PB_DeInit(Button_TypeDef Button)
 
 /**
   * @brief  Returns the selected button state.
-  * @param  Button: Button to be checked
-  *          This parameter can be one of the following values:
-  *            @arg  BUTTON_WAKEUP: Wakeup Push Button 
+  * @param  Button  Button to be checked
+  *                 This parameter can be one of the following values:
+  *                   @arg  BUTTON_USER  User Push Button 
   * @retval The Button GPIO pin value (GPIO_PIN_RESET = button pressed)
   */
 uint32_t BSP_PB_GetState(Button_TypeDef Button)
@@ -307,10 +281,10 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
 
 /**
   * @brief  Configures COM port.
-  * @param  COM: COM port to be configured.
-  *          This parameter can be one of the following values:
-  *            @arg  COM1 
-  * @param  huart: Pointer to a UART_HandleTypeDef structure that contains the
+  * @param  COM  COM port to be initialized.
+  *              This parameter can be one of the following values:
+  *                @arg  COM1 
+  * @param  huart  Pointer to a UART_HandleTypeDef structure that contains the
   *                configuration information for the specified USART peripheral.
   */
 void BSP_COM_Init(COM_TypeDef COM, UART_HandleTypeDef *huart)
@@ -344,11 +318,11 @@ void BSP_COM_Init(COM_TypeDef COM, UART_HandleTypeDef *huart)
 }
 
 /**
-  * @brief  DeInit COM port.
-  * @param  COM: COM port to be configured.
-  *          This parameter can be one of the following values:
-  *            @arg  COM1 
-  * @param  huart: Pointer to a UART_HandleTypeDef structure that contains the
+  * @brief  DeInitializes COM port.
+  * @param  COM  COM port to be deinitialized.
+  *              This parameter can be one of the following values:
+  *                @arg  COM1 
+  * @param  huart  Pointer to a UART_HandleTypeDef structure that contains the
   *                configuration information for the specified USART peripheral.
   */
 void BSP_COM_DeInit(COM_TypeDef COM, UART_HandleTypeDef *huart)
@@ -375,7 +349,7 @@ void BSP_COM_DeInit(COM_TypeDef COM, UART_HandleTypeDef *huart)
 /******************************* I2C Routines *********************************/
 /**
   * @brief  Initializes I2C MSP.
-  * @param  i2c_handler : I2C handler
+  * @param  i2c_handler  I2C handler
   * @retval None
   */
 static void I2Cx_MspInit(I2C_HandleTypeDef *i2c_handler)
@@ -417,7 +391,7 @@ static void I2Cx_MspInit(I2C_HandleTypeDef *i2c_handler)
 
 /**
   * @brief  DeInitializes I2C MSP.
-  * @param  i2c_handler : I2C handler
+  * @param  i2c_handler  I2C handler
   * @retval None
   */
 static void I2Cx_MspDeInit(I2C_HandleTypeDef *i2c_handler)
@@ -436,7 +410,7 @@ static void I2Cx_MspDeInit(I2C_HandleTypeDef *i2c_handler)
 
 /**
   * @brief  Initializes I2C HAL.
-  * @param  i2c_handler : I2C handler
+  * @param  i2c_handler  I2C handler
   * @retval None
   */
 static void I2Cx_Init(I2C_HandleTypeDef *i2c_handler)
@@ -461,7 +435,7 @@ static void I2Cx_Init(I2C_HandleTypeDef *i2c_handler)
 
 /**
   * @brief  DeInitializes I2C HAL.
-  * @param  i2c_handler : I2C handler
+  * @param  i2c_handler  I2C handler
   * @retval None
   */
 static void I2Cx_DeInit(I2C_HandleTypeDef *i2c_handler)
@@ -472,12 +446,12 @@ static void I2Cx_DeInit(I2C_HandleTypeDef *i2c_handler)
 
 /**
   * @brief  Reads multiple data.
-  * @param  i2c_handler : I2C handler
-  * @param  Addr: I2C address
-  * @param  Reg: Reg address
-  * @param  MemAddress: memory address
-  * @param  Buffer: Pointer to data buffer
-  * @param  Length: Length of the data
+  * @param  i2c_handler  I2C handler
+  * @param  Addr  I2C address
+  * @param  Reg  Reg address
+  * @param  MemAddress  memory address
+  * @param  Buffer  Pointer to data buffer
+  * @param  Length  Length of the data
   * @retval HAL status
   */
 static HAL_StatusTypeDef I2Cx_ReadMultiple(I2C_HandleTypeDef *i2c_handler, uint8_t Addr, uint16_t Reg, uint16_t MemAddress, uint8_t *Buffer, uint16_t Length)
@@ -498,12 +472,12 @@ static HAL_StatusTypeDef I2Cx_ReadMultiple(I2C_HandleTypeDef *i2c_handler, uint8
 
 /**
   * @brief  Writes a value in a register of the device through BUS in using DMA mode.
-  * @param  i2c_handler : I2C handler
-  * @param  Addr: Device address on BUS Bus.
-  * @param  Reg: The target register address to write
-  * @param  MemAddress: memory address
-  * @param  Buffer: The target register value to be written
-  * @param  Length: buffer size to be written
+  * @param  i2c_handler  I2C handler
+  * @param  Addr  Device address on BUS Bus.
+  * @param  Reg  The target register address to write
+  * @param  MemAddress  memory address
+  * @param  Buffer  The target register value to be written
+  * @param  Length  buffer size to be written
   * @retval HAL status
   */
 static HAL_StatusTypeDef I2Cx_WriteMultiple(I2C_HandleTypeDef *i2c_handler, uint8_t Addr, uint16_t Reg, uint16_t MemAddress, uint8_t *Buffer, uint16_t Length)
@@ -524,9 +498,9 @@ static HAL_StatusTypeDef I2Cx_WriteMultiple(I2C_HandleTypeDef *i2c_handler, uint
 /**
   * @brief  Checks if target device is ready for communication. 
   * @note   This function is used with Memory devices
-  * @param  i2c_handler : I2C handler
-  * @param  DevAddress: Target device address
-  * @param  Trials: Number of trials
+  * @param  i2c_handler  I2C handler
+  * @param  DevAddress  Target device address
+  * @param  Trials  Number of trials
   * @retval HAL status
   */
 static HAL_StatusTypeDef I2Cx_IsDeviceReady(I2C_HandleTypeDef *i2c_handler, uint16_t DevAddress, uint32_t Trials)
@@ -536,8 +510,8 @@ static HAL_StatusTypeDef I2Cx_IsDeviceReady(I2C_HandleTypeDef *i2c_handler, uint
 
 /**
   * @brief  Manages error callback by re-initializing I2C.
-  * @param  i2c_handler : I2C handler
-  * @param  Addr: I2C Address
+  * @param  i2c_handler  I2C handler
+  * @param  Addr  I2C Address
   * @retval None
   */
 static void I2Cx_Error(I2C_HandleTypeDef *i2c_handler, uint8_t Addr)
@@ -578,9 +552,9 @@ void SENSOR_IO_DeInit(void)
 
 /**
   * @brief  Writes a single data.
-  * @param  Addr: I2C address
-  * @param  Reg: Reg address
-  * @param  Value: Data to be written
+  * @param  Addr  I2C address
+  * @param  Reg  Reg address
+  * @param  Value  Data to be written
   * @retval None
   */
 void SENSOR_IO_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
@@ -590,8 +564,8 @@ void SENSOR_IO_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
 
 /**
   * @brief  Reads a single data.
-  * @param  Addr: I2C address
-  * @param  Reg: Reg address
+  * @param  Addr  I2C address
+  * @param  Reg  Reg address
   * @retval Data to be read
   */
 uint8_t SENSOR_IO_Read(uint8_t Addr, uint8_t Reg)
@@ -606,10 +580,10 @@ uint8_t SENSOR_IO_Read(uint8_t Addr, uint8_t Reg)
 /**
   * @brief  Reads multiple data with I2C communication
   *         channel from TouchScreen.
-  * @param  Addr: I2C address
-  * @param  Reg: Register address
-  * @param  Buffer: Pointer to data buffer
-  * @param  Length: Length of the data
+  * @param  Addr  I2C address
+  * @param  Reg  Register address
+  * @param  Buffer  Pointer to data buffer
+  * @param  Length  Length of the data
   * @retval HAL status
   */
 uint16_t SENSOR_IO_ReadMultiple(uint8_t Addr, uint8_t Reg, uint8_t *Buffer, uint16_t Length)
@@ -620,10 +594,10 @@ uint16_t SENSOR_IO_ReadMultiple(uint8_t Addr, uint8_t Reg, uint8_t *Buffer, uint
 /**
   * @brief  Writes multiple data with I2C communication
   *         channel from MCU to TouchScreen.
-  * @param  Addr: I2C address
-  * @param  Reg: Register address
-  * @param  Buffer: Pointer to data buffer
-  * @param  Length: Length of the data
+  * @param  Addr  I2C address
+  * @param  Reg  Register address
+  * @param  Buffer  Pointer to data buffer
+  * @param  Length  Length of the data
   * @retval None
   */
 void SENSOR_IO_WriteMultiple(uint8_t Addr, uint8_t Reg, uint8_t *Buffer, uint16_t Length)
@@ -634,8 +608,8 @@ void SENSOR_IO_WriteMultiple(uint8_t Addr, uint8_t Reg, uint8_t *Buffer, uint16_
 /**
   * @brief  Checks if target device is ready for communication. 
   * @note   This function is used with Memory devices
-  * @param  DevAddress: Target device address
-  * @param  Trials: Number of trials
+  * @param  DevAddress  Target device address
+  * @param  Trials  Number of trials
   * @retval HAL status
   */
 HAL_StatusTypeDef SENSOR_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials)
@@ -644,8 +618,8 @@ HAL_StatusTypeDef SENSOR_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials)
 }
 
 /**
-  * @brief  Delay function used in TouchScreen low level driver.
-  * @param  Delay: Delay in ms
+  * @brief  Delay function used in Sensor low level driver.
+  * @param  Delay  Delay in ms
   * @retval None
   */
 void SENSOR_IO_Delay(uint32_t Delay)
@@ -657,7 +631,7 @@ void SENSOR_IO_Delay(uint32_t Delay)
 
 /**
   * @brief  Initializes Sensors low level.
-  * @param  GpoIrqEnable: 0x0 is disable, otherwise enabled  
+  * @param  GpoIrqEnable  0x0 is disable, otherwise enabled  
   * @retval None
   */
 void NFC_IO_Init(uint8_t GpoIrqEnable)
@@ -709,10 +683,10 @@ void NFC_IO_DeInit(void)
 
 /**
   * @brief  This functions reads a response of the M24SR device
-  * @param  Addr: M24SR I2C address
-  * @param  pBuffer : Pointer on the buffer to retrieve M24SR response
-  * @param  Length: Length of the data
-  * @retval Status: Success or Timeout
+  * @param  Addr  M24SR I2C address
+  * @param  pBuffer  Pointer on the buffer to retrieve M24SR response
+  * @param  Length  Length of the data
+  * @retval Status  Success or Timeout
   */
 uint16_t NFC_IO_ReadMultiple (uint8_t Addr, uint8_t *pBuffer, uint16_t Length )
 {
@@ -735,10 +709,10 @@ uint16_t NFC_IO_ReadMultiple (uint8_t Addr, uint8_t *pBuffer, uint16_t Length )
 
 /**
   * @brief  This functions sends the command buffer 
-  * @param  Addr: M24SR I2C address
-  * @param  pBuffer : pointer to the buffer to send to the M24SR
-  * @param  Length: Length of the data
-  * @retval Status: Success or Timeout
+  * @param  Addr  M24SR I2C address
+  * @param  pBuffer  pointer to the buffer to send to the M24SR
+  * @param  Length  Length of the data
+  * @retval Status  Success or Timeout
   */
 uint16_t  NFC_IO_WriteMultiple (uint8_t Addr, uint8_t *pBuffer, uint16_t Length) 
 {
@@ -761,9 +735,9 @@ uint16_t  NFC_IO_WriteMultiple (uint8_t Addr, uint8_t *pBuffer, uint16_t Length)
 
 /**
   * @brief  Checks if target device is ready for communication.
-  * @param  Addr: M24SR I2C address
-  * @param  Trials: Number of trials (currently not present in M24sr)
-  * @retval Status: Success or Timeout
+  * @param  Addr  M24SR I2C address
+  * @param  Trials  Number of trials (currently not present in M24sr)
+  * @retval Status  Success or Timeout
   */
 uint16_t   NFC_IO_IsDeviceReady (uint8_t Addr, uint32_t Trials)
 {
@@ -791,8 +765,7 @@ uint16_t   NFC_IO_IsDeviceReady (uint8_t Addr, uint32_t Trials)
 
 /**
   * @brief  This function read the state of the M24SR GPO
-  * @param  none
-  * @retval GPIO_PinState : state of the M24SR GPO
+  * @retval GPIO_PinState  state of the M24SR GPO
   */
 void NFC_IO_ReadState(uint8_t * pPinState)
 {
@@ -800,8 +773,8 @@ void NFC_IO_ReadState(uint8_t * pPinState)
 }
 
 /**
-  * @brief  This function set the state of the M24SR RF disable pin
-  * @param  PinState: put RF disable pin of M24SR in PinState (1 or 0)
+  * @brief  This function sets the state of the M24SR RF disable pin
+  * @param  PinState  put RF disable pin of M24SR in PinState (1 or 0)
   */
 void NFC_IO_RfDisable(uint8_t PinState)
 {
@@ -809,8 +782,8 @@ void NFC_IO_RfDisable(uint8_t PinState)
 }
 
 /**
-  * @brief  This function wait the time given in param (in milisecond)
-  * @param  Delay: Delay in ms
+  * @brief  Delay function used in M24SR low level driver.
+  * @param  Delay  Delay in ms
   * @retval None
   */
 void NFC_IO_Delay(uint32_t Delay)

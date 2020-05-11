@@ -2,35 +2,17 @@
   ******************************************************************************
   * @file    wm8994.c
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    22-February-2016
-  * @brief   This file provides the WM8994 Audio Codec driver.   
+  * @brief   This file provides the WM8994 Audio Codec driver.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -106,6 +88,8 @@ AUDIO_DrvTypeDef wm8994_drv =
 
 static uint32_t outputEnabled = 0;
 static uint32_t inputEnabled = 0;
+static uint8_t ColdStartup = 1;
+
 /**
   * @}
   */ 
@@ -117,6 +101,7 @@ static uint8_t CODEC_IO_Write(uint8_t Addr, uint16_t Reg, uint16_t Value);
 /**
   * @}
   */ 
+
 
 /** @defgroup WM8994_Private_Functions
   * @{
@@ -146,10 +131,10 @@ uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Vo
   counter += CODEC_IO_Write(DeviceAddr, 0x102, 0x0003);
   counter += CODEC_IO_Write(DeviceAddr, 0x817, 0x0000);
   counter += CODEC_IO_Write(DeviceAddr, 0x102, 0x0000);
-  
+
   /* Enable VMID soft start (fast), Start-up Bias Current Enabled */
   counter += CODEC_IO_Write(DeviceAddr, 0x39, 0x006C);
-  
+
     /* Enable bias generator, Enable VMID */
   if (input_device > 0)
   {
@@ -167,6 +152,7 @@ uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Vo
   if (output_device > 0)
   {
     outputEnabled = 1;
+
     switch (output_device)
     {
     case OUTPUT_DEVICE_SPEAKER:
@@ -465,6 +451,33 @@ uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Vo
 
   if (output_device > 0)  /* Audio output selected */
   {
+    if (output_device == OUTPUT_DEVICE_HEADPHONE)
+    {      
+      /* Select DAC1 (Left) to Left Headphone Output PGA (HPOUT1LVOL) path */
+      counter += CODEC_IO_Write(DeviceAddr, 0x2D, 0x0100);
+      
+      /* Select DAC1 (Right) to Right Headphone Output PGA (HPOUT1RVOL) path */
+      counter += CODEC_IO_Write(DeviceAddr, 0x2E, 0x0100);    
+            
+      /* Startup sequence for Headphone */
+      if(ColdStartup)
+      {
+        counter += CODEC_IO_Write(DeviceAddr,0x110,0x8100);
+        
+        ColdStartup=0;
+        /* Add Delay */
+        AUDIO_IO_Delay(300);
+      }
+      else /* Headphone Warm Start-Up */
+      { 
+        counter += CODEC_IO_Write(DeviceAddr,0x110,0x8108);
+        /* Add Delay */
+        AUDIO_IO_Delay(50);
+      }
+
+      /* Soft un-Mute the AIF1 Timeslot 0 DAC1 path L&R */
+      counter += CODEC_IO_Write(DeviceAddr, 0x420, 0x0000);
+    }
     /* Analog Output Configuration */
 
     /* Enable SPKRVOL PGA, Enable SPKMIXR, Enable SPKLVOL PGA, Enable SPKMIXL */
@@ -524,7 +537,7 @@ uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Vo
     counter += CODEC_IO_Write(DeviceAddr, 0x54, 0x0033);
 
     /* Add Delay */
-    AUDIO_IO_Delay(250);
+    AUDIO_IO_Delay(257);
 
     /* Enable HPOUT1 (Left) and HPOUT1 (Right) intermediate and output stages. Remove clamps */
     counter += CODEC_IO_Write(DeviceAddr, 0x60, 0x00EE);
@@ -538,7 +551,7 @@ uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Vo
     counter += CODEC_IO_Write(DeviceAddr, 0x611, 0x00C0);
 
     /* Unmute the AIF1 Timeslot 0 DAC path */
-    counter += CODEC_IO_Write(DeviceAddr, 0x420, 0x0000);
+    counter += CODEC_IO_Write(DeviceAddr, 0x420, 0x0010);
 
     /* Unmute DAC 2 (Left) */
     counter += CODEC_IO_Write(DeviceAddr, 0x612, 0x00C0);
@@ -547,7 +560,7 @@ uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Vo
     counter += CODEC_IO_Write(DeviceAddr, 0x613, 0x00C0);
 
     /* Unmute the AIF1 Timeslot 1 DAC2 path */
-    counter += CODEC_IO_Write(DeviceAddr, 0x422, 0x0000);
+    counter += CODEC_IO_Write(DeviceAddr, 0x422, 0x0010);
     
     /* Volume Control */
     wm8994_SetVolume(DeviceAddr, Volume);
@@ -701,7 +714,7 @@ uint32_t wm8994_Stop(uint16_t DeviceAddr, uint32_t CodecPdwnMode)
 
     if (CodecPdwnMode == CODEC_PDWN_SW)
     {
-       /* Only output mute required*/
+      /* Only output mute required*/
     }
     else /* CODEC_PDWN_HW */
     {
@@ -830,10 +843,10 @@ uint32_t wm8994_SetMute(uint16_t DeviceAddr, uint32_t Cmd)
     else /* AUDIO_MUTE_OFF Disable the Mute */
     {
       /* Unmute the AIF1 Timeslot 0 DAC1 path L&R */
-      counter += CODEC_IO_Write(DeviceAddr, 0x420, 0x0000);
+      counter += CODEC_IO_Write(DeviceAddr, 0x420, 0x0010);
 
       /* Unmute the AIF1 Timeslot 1 DAC2 path L&R */
-      counter += CODEC_IO_Write(DeviceAddr, 0x422, 0x0000);
+      counter += CODEC_IO_Write(DeviceAddr, 0x422, 0x0010);
     }
   }
   return counter;
@@ -949,6 +962,11 @@ uint32_t wm8994_SetFrequency(uint16_t DeviceAddr, uint32_t AudioFreq)
   case  AUDIO_FREQUENCY_16K:
     /* AIF1 Sample Rate = 16 (KHz), ratio=256 */ 
     counter += CODEC_IO_Write(DeviceAddr, 0x210, 0x0033);
+    break;
+
+  case  AUDIO_FREQUENCY_32K:
+    /* AIF1 Sample Rate = 32 (KHz), ratio=256 */ 
+    counter += CODEC_IO_Write(DeviceAddr, 0x210, 0x0063);
     break;
     
   case  AUDIO_FREQUENCY_48K:

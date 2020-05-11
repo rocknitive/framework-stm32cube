@@ -2,34 +2,18 @@
   ******************************************************************************
   * @file    stm32l476g_eval_glass_lcd.c
   * @author  MCD Application Team
-  * @brief   This file includes the LCD Glass driver for LCD XHO5002B Module of 
+  * @brief   This file includes the LCD Glass driver for LCD XHO5002B Module of
   *          STM32L476G-EVAL board.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -46,7 +30,7 @@
   */
 
 /** @defgroup STM32L476G_EVAL_GLASS_LCD STM32L476G_EVAL GLASS LCD
-  * @brief This file includes the LCD Glass driver for LCD_XHO5002B Module of 
+  * @brief This file includes the LCD Glass driver for LCD_XHO5002B Module of
   *        STM32L476G-EVAL board.
   * @{
   */
@@ -113,9 +97,6 @@ The character A for example is:
 
 LCD_HandleTypeDef LCDHandle;
 
-/* LCD BAR status: To save the bar setting after writing in LCD RAM memory */
-uint8_t LCDBar = BATTERYLEVEL_FULL;
-
 /**
   * @brief LETTERS AND NUMBERS MAPPING DEFINITION
   */
@@ -134,13 +115,13 @@ uint32_t Digit[6];     /* Digit frame buffer */
 __IO const uint32_t LetterMap[26] =
   {
     /*  A            B          C           D           E            F   */
-    0x00002536, 0x00202536, 0x00202404, 0x00222310, 0x00202426, 0x00002426, 
-    /*   G            H          I            J           K         L    */ 
+    0x00002536, 0x00202536, 0x00202404, 0x00222310, 0x00202426, 0x00002426,
+    /*   G            H          I            J           K         L    */
     0x00202416, 0x00000536, 0x00222200, 0x00200114, 0x00001425, 0x00200404,
-    /*   M          N           O            P          Q         R      */ 
+    /*   M          N           O            P          Q         R      */
     0x00005514, 0x00004515, 0x00202514, 0x00002526, 0x00002532, 0x00002527,
     /*   S           T           U           V           W           X   */
-    0x00202432, 0x00022200, 0x00200514, 0x00041404, 0x00050515, 0x00045001, 
+    0x00202432, 0x00022200, 0x00200514, 0x00041404, 0x00040515, 0x00045001,
     /*  Y          Z     */
     0x00025000, 0x00243000
   };
@@ -195,15 +176,15 @@ void BSP_LCD_GLASS_Init(void)
   LCDHandle.Init.Bias             = LCD_BIAS_1_4;
   LCDHandle.Init.VoltageSource    = LCD_VOLTAGESOURCE_INTERNAL;
   LCDHandle.Init.Contrast         = LCD_CONTRASTLEVEL_7;
-  LCDHandle.Init.DeadTime         = LCD_DEADTIME_0; 
+  LCDHandle.Init.DeadTime         = LCD_DEADTIME_0;
   LCDHandle.Init.PulseOnDuration  = LCD_PULSEONDURATION_2;
   LCDHandle.Init.HighDrive        = LCD_HIGHDRIVE_DISABLE;
   LCDHandle.Init.BlinkMode        = LCD_BLINKMODE_OFF;
   LCDHandle.Init.BlinkFrequency   = LCD_BLINKFREQUENCY_DIV8;
   LCDHandle.Init.MuxSegment       = LCD_MUXSEGMENT_DISABLE;
-  
+
   __HAL_LCD_RESET_HANDLE_STATE(&LCDHandle);
-  
+
   /* Initialize the LCD */
   LCD_MspInit(&LCDHandle);
   HAL_LCD_Init(&LCDHandle);
@@ -215,15 +196,15 @@ void BSP_LCD_GLASS_Init(void)
   *   This parameter can be one of the following values:
   *     @arg LCD_BLINKMODE_OFF:           Blink disabled
   *     @arg LCD_BLINKMODE_SEG0_COM0:     Blink enabled on SEG[0], COM[0] (1 pixel)
-  *     @arg LCD_BLINKMODE_SEG0_ALLCOM:   Blink enabled on SEG[0], all COM (up to 8 
+  *     @arg LCD_BLINKMODE_SEG0_ALLCOM:   Blink enabled on SEG[0], all COM (up to 8
   *                                       pixels according to the programmed duty)
-  *     @arg LCD_BLINKMODE_ALLSEG_ALLCOM: Blink enabled on all SEG and all COM 
+  *     @arg LCD_BLINKMODE_ALLSEG_ALLCOM: Blink enabled on all SEG and all COM
   *                                       (all pixels)
   * @param  BlinkFrequency: specifies the LCD blink frequency.
   *     @arg LCD_BLINKFREQUENCY_DIV8:    The Blink frequency = fLcd/8
   *     @arg LCD_BLINKFREQUENCY_DIV16:   The Blink frequency = fLcd/16
   *     @arg LCD_BLINKFREQUENCY_DIV32:   The Blink frequency = fLcd/32
-  *     @arg LCD_BLINKFREQUENCY_DIV64:   The Blink frequency = fLcd/64 
+  *     @arg LCD_BLINKFREQUENCY_DIV64:   The Blink frequency = fLcd/64
   *     @arg LCD_BLINKFREQUENCY_DIV128:  The Blink frequency = fLcd/128
   *     @arg LCD_BLINKFREQUENCY_DIV256:  The Blink frequency = fLcd/256
   *     @arg LCD_BLINKFREQUENCY_DIV512:  The Blink frequency = fLcd/512
@@ -265,7 +246,7 @@ void BSP_LCD_GLASS_Contrast(uint32_t Contrast)
   * @param Position: position in the LCD of the caracter to write [1:7]
   * @retval None
   * @note  Required preconditions: The LCD should be cleared before to start the
-  *        write operation.  
+  *        write operation.
   */
 void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t Position)
 {
@@ -274,7 +255,7 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
   switch(Position)
   {
     /* Position 1 on LCD */
-    case 1: 
+    case 1:
       /* Write Digit 0 on COM0 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFBFF, (Digit[0] << (uint32_t)0x09));
       /* Write Digit 1 on COM1 */
@@ -282,13 +263,13 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFFFF1FF, (Digit[2] << (uint32_t)0x09));
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFF1FF, (Digit[3] << (uint32_t)0x09)); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFF1FF, (Digit[3] << (uint32_t)0x09));
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFFFF9FF, (Digit[4] << (uint32_t)0x09));
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFFFF1FF, (Digit[5] << (uint32_t)0x09));
       break;
-    
+
     /* Position 2 on LCD */
     case 2:
       /* Write Digit 0 on COM0 */
@@ -298,13 +279,13 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFFF8FFF, (Digit[2] << (uint32_t)0x0C));
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFF8FFF, (Digit[3] << (uint32_t)0x0C)); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFF8FFF, (Digit[3] << (uint32_t)0x0C));
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFFF8FFF, (Digit[4] << (uint32_t)0x0C));
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFFF8FFF, (Digit[5] << (uint32_t)0x0C));
       break;
-    
+
     /* Position 3 on LCD */
     case 3:
       /* Write Digit 0 on COM0 */
@@ -314,13 +295,13 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFFC7FFF, (Digit[2] << (uint32_t)0x0F));
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFC7FFF, (Digit[3] << (uint32_t)0x0F)); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFC7FFF, (Digit[3] << (uint32_t)0x0F));
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFFC7FFF, (Digit[4] << (uint32_t)0x0F));
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFFC7FFF, (Digit[5] << (uint32_t)0x0F));
       break;
-    
+
     /* Position 4 on LCD */
     case 4:
       /* Write Digit 0 on COM0 */
@@ -330,13 +311,13 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFE3FFFF, (Digit[2] << (uint32_t)0x12));
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFE3FFFF, (Digit[3] << (uint32_t)0x12)); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFE3FFFF, (Digit[3] << (uint32_t)0x12));
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFE3FFFF, (Digit[4] << (uint32_t)0x12));
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFE3FFFF, (Digit[5] << (uint32_t)0x12));
       break;
-    
+
     /* Position 5 on LCD */
     case 5:
       /* Write Digit 0 on COM0 */
@@ -346,13 +327,13 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFFFFFF8, Digit[2]);
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFFFF8, Digit[3]); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFFFF8, Digit[3]);
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFFFFFF8, Digit[4]);
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFFFFFF8, Digit[5]);
       break;
-    
+
     /* Position 6 on LCD */
     case 6:
       /* Write Digit 0 on COM0 */
@@ -362,13 +343,13 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFFFFFC7, (Digit[2] << (uint32_t)0x03));
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFFFC7, (Digit[3] << (uint32_t)0x03)); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFFFC7, (Digit[3] << (uint32_t)0x03));
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFFFFFC7, (Digit[4] << (uint32_t)0x03));
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFFFFFC7, (Digit[5] << (uint32_t)0x03));
       break;
-    
+
     /* Position 7 on LCD */
     case 7:
       /* Write Digit 0 on COM0 */
@@ -378,27 +359,24 @@ void BSP_LCD_GLASS_WriteChar(uint8_t* ch, uint8_t Point, uint8_t Column, uint8_t
       /* Write Digit 2 on COM4 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFFFFE3F, (Digit[2] << (uint32_t)0x06));
       /* Write Digit 3 on COM5 */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFFE3F, (Digit[3] << (uint32_t)0x06)); 
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFFFFE3F, (Digit[3] << (uint32_t)0x06));
       /* Write Digit 4 on COM6 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFFFFE3F, (Digit[4] << (uint32_t)0x06));
       /* Write Digit 5 on COM7 */
       HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFFFFE3F, (Digit[5] << (uint32_t)0x06));
       break;
-    
+
   default:
     break;
   }
 
   /* Update the LCD display */
   HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-  
-  /* Refresh LCD  bar */
-  BSP_LCD_GLASS_BarLevelConfig(LCDBar);
 }
 
 /**
-  * @brief Setting bar on LCD, writes bar value in LCD frame buffer 
-  * @param BarLevel: specifies the LCD GLASS Batery Level.
+  * @brief Setting bar on LCD, writes bar value in LCD frame buffer
+  * @param BarLevel: specifies the LCD GLASS Battery Level.
   *     This parameter can be one of the following values:
   *     @arg BATTERYLEVEL_OFF: LCD GLASS Batery Empty
   *     @arg BATTERYLEVEL_1_4: LCD GLASS Batery 1/4 Full
@@ -414,55 +392,50 @@ void BSP_LCD_GLASS_BarLevelConfig(uint8_t BarLevel)
   case BATTERYLEVEL_OFF:
     /* Set BATTERYLEVEL_3_4 off  */
     /* Set BATTERYLEVEL_1_4 off  */
-    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, 0);    
+    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, 0);
     /* Set BATTERYLEVEL_1_2 off  */
     /* Set BATTERYLEVEL_FULL off  */
     HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFFFF6, 0);
-    LCDBar = BATTERYLEVEL_OFF;
     break;
-    
+
   /* BARLEVEL 1/4 */
   case BATTERYLEVEL_1_4:
     /* Set BATTERYLEVEL_1_4  on  */
-    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000001));    
+    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000001));
     HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFFFF6, 0);
-    LCDBar = BATTERYLEVEL_1_4;
     break;
-    
+
   /* BARLEVEL 1/2 */
   case BATTERYLEVEL_1_2:
     /* Set BatteryLevel_1_4 on  */
-    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000001));    
+    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000001));
     /* Set BatteryLevel_1_2 on  */
     HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFFFF6, (uint32_t)(0x00000001));
-    LCDBar = BATTERYLEVEL_1_2;
     break;
-    
+
   /* Battery Level 3/4 */
   case BATTERYLEVEL_3_4:
     /* Set BATTERYLEVEL_3_4 on  */
     /* Set BatteryLevel_1_4 on  */
-    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000001));    
+    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000001));
     /* Set BatteryLevel_1_2 on  */
     HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFFFF6, (uint32_t)(0x00000009));
-    LCDBar = BATTERYLEVEL_3_4;
     break;
-    
+
   /* BATTERYLEVEL_FULL */
   case BATTERYLEVEL_FULL:
     /* Set BATTERYLEVEL_3_4 on  */
     /* Set BatteryLevel_1_4 on  */
-    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000009));    
+    HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFFFF6, (uint32_t)(0x00000009));
     /* Set BATTERYLEVEL_FULL on  */
     /* Set BatteryLevel_1_2 on  */
     HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFFFF6, (uint32_t)(0x00000009));
-    LCDBar = BATTERYLEVEL_FULL;
     break;
-    
+
   default:
     break;
   }
-  
+
   /* Update the LCD display */
   HAL_LCD_UpdateDisplayRequest(&LCDHandle);
 }
@@ -558,10 +531,10 @@ void BSP_LCD_GLASS_ClearChar(uint8_t position)
   * @brief  This function writes a char in the LCD RAM.
   * @param  Ch: The character to display.
   * @param  Point: A point to add in front of char.
-  *          This parameter  can be one of the following values:  
+  *          This parameter  can be one of the following values:
   *              @arg POINT_OFF: No point to add in front of char.
   *              @arg POINT_ON: Add a point in front of char.
-  * @param  DoublePoint: Flag indicating if a apostrophe has to be add in front 
+  * @param  DoublePoint: Flag indicating if a apostrophe has to be add in front
   *                     of displayed character.
   *          This parameter  can be one of the following values:
   *              @arg DOUBLEPOINT_OFF: No colon to add in back of char.
@@ -589,7 +562,7 @@ void BSP_LCD_GLASS_DisplayString(uint8_t* ptr)
   uint8_t position = 0x01;
 
   /*!< Send the string character by character on lCD */
-  while ((*ptr != 0) & (position < 8))
+  while ((*ptr != 0) && (position < 8))
   {
     /*!< Display one character on LCD */
     BSP_LCD_GLASS_WriteChar(ptr, 0, 0, position);
@@ -609,7 +582,7 @@ void BSP_LCD_GLASS_ClearTextZone(void)
   HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFE49A49, 0);
   HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFE49A49, 0);
   HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, 0xFFE00000, 0);
-  HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFE00000, 0); 
+  HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, 0xFFE00000, 0);
   HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, 0xFFE00800, 0);
   HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, 0xFFE00000, 0);
 
@@ -629,10 +602,10 @@ void BSP_LCD_GLASS_DisplayStrDeci(uint16_t* ptr)
   uint8_t tmpchar;
 
   /* Send the string character by character on lCD */
-  while((*ptr != 0) & (index < 8))
-  {      
+  while((*ptr != 0) && (index < 8))
+  {
     tmpchar = (*ptr) & 0x00FF;
-    
+
     switch((*ptr) & 0xF000)
     {
     case DOT:
@@ -644,11 +617,11 @@ void BSP_LCD_GLASS_DisplayStrDeci(uint16_t* ptr)
       BSP_LCD_GLASS_WriteChar(&tmpchar, POINT_OFF, DOUBLEPOINT_ON, index);
       break;
     default:
-      BSP_LCD_GLASS_WriteChar(&tmpchar, POINT_OFF, DOUBLEPOINT_OFF, index);    
+      BSP_LCD_GLASS_WriteChar(&tmpchar, POINT_OFF, DOUBLEPOINT_OFF, index);
       break;
     }/* Point on the next character */
     ptr++;
-    
+
     /* Increment the character counter */
     index++;
   }
@@ -660,7 +633,7 @@ void BSP_LCD_GLASS_DisplayStrDeci(uint16_t* ptr)
   */
 void BSP_LCD_GLASS_Clear(void)
 {
-  HAL_LCD_Clear(&LCDHandle); 
+  HAL_LCD_Clear(&LCDHandle);
 }
 
 /**
@@ -668,7 +641,7 @@ void BSP_LCD_GLASS_Clear(void)
   * @param  ptr: Pointer to string to display on the LCD Glass.
   * @param  nScroll: Specifies how many time the message will be scrolled
   * @param  ScrollSpeed : Specifies the speed of the scroll, low value gives
-  *         higher speed 
+  *         higher speed
   * @retval None
   * @note    Required preconditions: The LCD should be cleared before to start the
   *         write operation.
@@ -678,20 +651,20 @@ void BSP_LCD_GLASS_ScrollSentence(uint8_t* ptr, uint16_t nScroll, uint16_t Scrol
   uint8_t repetition = 0, nbrchar = 0, sizestr = 0;
   uint8_t* ptr1;
   uint8_t str[8] = "";
-  
+
   if(ptr == 0)
   {
     return;
   }
-  
+
   /* To calculate end of string */
   for(ptr1 = ptr, sizestr = 0; *ptr1 != 0; sizestr++, ptr1++);
-  
+
   ptr1 = ptr;
-  
+
   BSP_LCD_GLASS_DisplayString(ptr);
   HAL_Delay(ScrollSpeed);
-  
+
   /* To shift the string for scrolling display*/
   for (repetition = 0; repetition < nScroll; repetition++)
   {
@@ -707,9 +680,9 @@ void BSP_LCD_GLASS_ScrollSentence(uint8_t* ptr, uint16_t nScroll, uint16_t Scrol
       *(str+7) =* (ptr1+((nbrchar+7)%sizestr));
       BSP_LCD_GLASS_ClearTextZone();
       BSP_LCD_GLASS_DisplayString(str);
-      
+
       HAL_Delay(ScrollSpeed);
-    }  
+    }
   }
 }
 
@@ -747,25 +720,25 @@ void BSP_LCD_GLASS_ArrowConfig(ArrowDirection_TypeDef ArrowDirection)
     /* ARROWDIRECTION_UP */
     case ARROWDIRECTION_UP:
       /* Set ARROWDIRECTION_UP on  */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFF6FFF, 0x00001000);
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFFEFFF, 0x00001000);
       break;
 
     /* ARROWDIRECTION_LEFT */
     case ARROWDIRECTION_LEFT :
       /* Set ARROWDIRECTION_LEFT on  */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFF6FFF, 0x00001000);
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFEFFF, 0x00001000);
       break;
 
     /* ARROWDIRECTION_DOWN */
     case ARROWDIRECTION_DOWN:
       /* Set ARROWDIRECTION_DOWN on  */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFF6FFF, 0x00008000);
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFF7FFF, 0x00008000);
       break;
 
     /* ARROWDIRECTION_RIGHT */
     case ARROWDIRECTION_RIGHT:
       /* Set ARROWDIRECTION_RIGHT on  */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFF6FFF, 0x00008000);
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, 0xFFFF7FFF, 0x00008000);
       break;
 
     case ARROWDIRECTION_OFF:
@@ -897,7 +870,7 @@ void BSP_LCD_GLASS_ValueUnitConfig(ValueUnit_TypeDef ValueUnit)
     /* VALUEUNIT MILLIAMPERE*/
     case VALUEUNIT_MILLIAMPERE:
       /* Set VALUEUNIT_MILLIAMPERE on  */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFBFFBF, 0x00040000);
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFBFFFF, 0x00040000);
       break;
 
     /* VALUEUNIT MICROAMPERE)*/
@@ -909,7 +882,7 @@ void BSP_LCD_GLASS_ValueUnitConfig(ValueUnit_TypeDef ValueUnit)
     /* VALUEUNIT NANOAMPERE*/
     case  VALUEUNIT_NANOAMPERE:
       /* Set VALUEUNIT_NANOAMPERE on  */
-      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFBFFBF, 0x00000040);
+      HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, 0xFFFFFFBF, 0x00000040);
       break;
 
     case  VALUEUNIT_OFF:
@@ -1100,97 +1073,97 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 2 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000200), (uint32_t)0x00000200);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 2 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00004000), (uint32_t)0x00004000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 2 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00002000), (uint32_t)0x00002000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 2 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00001000), (uint32_t)0x00001000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 2 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00020000), (uint32_t)0x00020000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 2 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00010000), (uint32_t)0x00010000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 2 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00008000), (uint32_t)0x00008000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 2 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00100000), (uint32_t)0x00100000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 2 , Column= 9 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00080000), (uint32_t)0x00080000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 2 , Column= 10 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00040000), (uint32_t)0x00040000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 2 , Column= 11 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 2 , Column= 12 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 2 , Column= 13 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 2 , Column= 14 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 2 , Column= 15 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 2 , Column= 16 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 2 , Column= 17 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000100), (uint32_t)0x00000100);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 2 , Column= 18 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 2 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         default:
           break;
       }
@@ -1203,92 +1176,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 3 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 3 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 3 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 3 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 3 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 3 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 3 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 3 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 3 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 3 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 3 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 3 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 3 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 3 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 3 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 3 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 3 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 3 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 3 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1306,92 +1279,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 4 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 4 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 4 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 4 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 4 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 4 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 4 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 4 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 4 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 4 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 4 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 4 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 4 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 4 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 4 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 4 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 4 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 4 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 4 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1410,92 +1383,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 5 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 5 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 5 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 5 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 5 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 5 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 5 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 5 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 5 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 5 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 5 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 5 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 5 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 5 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 5 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 5 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 5 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 5 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 5 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1513,92 +1486,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 6 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 6 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 6 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 6 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 6 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 6 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 6 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 6 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 6 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 6 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 6 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 6 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 6 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 6 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 6 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 6 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 6 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 6 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 6 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1616,92 +1589,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 7 , Column =1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 7 , Column =2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 7 , Column =3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 7 , Column =4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 7 , Column =5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 7 , Column =6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 7 , Column =7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 7 , Column =8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 7 , Column =9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 7 , Column =10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 7 , Column =11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 7 , Column =12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 7 , Column =13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 7 , Column =14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 7 , Column =15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 7 , Column =16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 7 , Column =17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 7 , Column =18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 7 , Column =19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1719,92 +1692,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 8 , Column =1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 8 , Column =2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 8 , Column =3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 8 , Column =4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 8 , Column =5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 8 , Column =6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 8 , Column =7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 8 , Column =8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 8 , Column =9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 8 , Column =10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 8 , Column =11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 8 , Column =12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 8 , Column =13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 8 , Column =14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 8 , Column =15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 8 , Column =16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 8 , Column =17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 8 , Column =18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 8 , Column =19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1822,92 +1795,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 9 , Column =1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 9 , Column =2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 9 , Column =3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 9 , Column =4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 9 , Column =5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 9 , Column =6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 9 , Column =7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 9 , Column =8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 9 , Column =9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 9 , Column =10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 9 , Column =11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 9 , Column =12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 9 , Column =13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 9 , Column =14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 9 , Column =15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 9 , Column =16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 9 , Column =17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 9 , Column =18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 9 , Column =19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -1925,92 +1898,92 @@ void BSP_LCD_GLASS_WriteMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 10 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x00200000), (uint32_t)0x00200000);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 10 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x00400000), (uint32_t)0x00400000);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 10 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x00800000), (uint32_t)0x00800000);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 10 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x01000000), (uint32_t)0x01000000);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 10 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x02000000), (uint32_t)0x02000000);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 10 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x04000000), (uint32_t)0x04000000);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 10 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x08000000), (uint32_t)0x08000000);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 10 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x10000000), (uint32_t)0x10000000);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 10 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x20000000), (uint32_t)0x20000000);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 10 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x40000000), (uint32_t)0x40000000);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 10 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, ~((uint32_t)0x80000000), (uint32_t)0x80000000);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 10 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000001), (uint32_t)0x00000001);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 10 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000002), (uint32_t)0x00000002);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 10 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000004), (uint32_t)0x00000004);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 10 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000008), (uint32_t)0x00000008);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 10 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000010), (uint32_t)0x00000010);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 10 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000020), (uint32_t)0x00000020);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 10 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000040), (uint32_t)0x00000040);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 10 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, ~((uint32_t)0x00000080), (uint32_t)0x00000080);
@@ -2043,92 +2016,92 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 1 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFDFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 1 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFBFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 1 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFDFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 1 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFEFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 1 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFDFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 1 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFEFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 1 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFF7FFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 1 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFEFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 1 , Column= 9 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFF7FFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 1 , Column= 10 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFBFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 1 , Column= 11 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 1 , Column= 12 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 1 , Column= 13 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 1 , Column= 14 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 1 , Column= 15 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 1 , Column= 16 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 1 , Column= 17 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFEFF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 1 , Column= 18 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFF7F, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 1 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFFFFFBF, 0);
@@ -2147,97 +2120,97 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 2 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFDFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 2 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFBFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 2 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFDFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 2 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFEFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 2 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFDFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 2 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFEFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 2 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFF7FFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 2 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFEFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 2 , Column= 9 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFF7FFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 2 , Column= 10 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFBFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 2 , Column= 11 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 2 , Column= 12 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 2 , Column= 13 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 2 , Column= 14 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 2 , Column= 15 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 2 , Column= 16 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 2 , Column= 17 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFEFF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 2 , Column= 18 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFF7F, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 2 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         default:
           break;
       }
@@ -2250,92 +2223,92 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 3 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 3 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 3 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 3 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 3 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 3 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 3 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 3 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 3 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 3 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 3 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 3 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 3 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 3 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 3 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 3 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 3 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 3 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 3 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, (uint32_t)0xFFFFFF7F, 0);
@@ -2353,92 +2326,92 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 4 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 4 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 4 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 4 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 4 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 4 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 4 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 4 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 4 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 4 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 4 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 4 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 4 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 4 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 4 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 4 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 4 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 4 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 4 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, (uint32_t)0xFFFFFF7F, 0);
@@ -2456,92 +2429,92 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 5 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 5 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 5 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 5 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 5 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 5 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 5 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 5 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 5 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 5 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 5 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER0, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 5 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 5 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 5 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 5 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 5 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 5 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 5 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 5 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER1, (uint32_t)0xFFFFFF7F, 0);
@@ -2559,92 +2532,92 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 6 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 6 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 6 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 6 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 6 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 6 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 6 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 6 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 6 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 6 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 6 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER2, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 6 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 6 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 6 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 6 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 6 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 6 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 6 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 6 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER3, (uint32_t)0xFFFFFF7F, 0);
@@ -2662,92 +2635,92 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 7 , Column =1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 7 , Column =2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 7 , Column =3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 7 , Column =4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 7 , Column =5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 7 , Column =6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 7 , Column =7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 7 , Column =8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 7 , Column =9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 7 , Column =10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 7 , Column =11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER14, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 7 , Column =12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 7 , Column =13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 7 , Column =14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 7 , Column =15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 7 , Column =16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 7 , Column =17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 7 , Column =18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 7 , Column =19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER15, (uint32_t)0xFFFFFF7F, 0);
@@ -2765,102 +2738,102 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 8 , Column =1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 8 , Column =2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 8 , Column =3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 8 , Column =4 */
-          HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFEFFFFF0, 0);
+          HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 8 , Column =5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 8 , Column =6 */
-          HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFBFFFFF0, 0);
+          HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 8 , Column =7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 8 , Column =8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 8 , Column =9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 8 , Column =10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 8 , Column =11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER12, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 8 , Column =12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 8 , Column =13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 8 , Column =14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 8 , Column =15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 8 , Column =16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 8 , Column =17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 8 , Column =18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 8 , Column =19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER13, (uint32_t)0xFFFFFF7F, 0);
           break;
-        
+
           default:
           break;
         }
       break;
-    
+
     case PIXELROW_9:
       switch (PixelColumn)
         {
@@ -2868,102 +2841,102 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 9 , Column =1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 9 , Column =2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 9 , Column =3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 9 , Column =4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 9 , Column =5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 9 , Column =6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 9 , Column =7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 9 , Column =8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 9 , Column =9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 9 , Column =10*/
-          HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xBFFFFFF, 0);
+          HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 9 , Column =11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER10, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 9 , Column =12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 9 , Column =13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 9 , Column =14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 9 , Column =15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 9 , Column =16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 9 , Column =17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 9 , Column =18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 9 , Column =19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER11, (uint32_t)0xFFFFFF7F, 0);
           break;
-        
+
           default:
           break;
         }
       break;
-    
+
     case PIXELROW_10:
       switch (PixelColumn)
         {
@@ -2971,97 +2944,97 @@ void BSP_LCD_GLASS_ClearMatrixPixel(PixelRow_TypeDef PixelRow, PixelColumn_TypeD
           /* Position : Row = 10 , Column= 1 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xFFDFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_2:
           /* Position : Row = 10 , Column= 2 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xFFBFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_3:
           /* Position : Row = 10 , Column= 3 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xFF7FFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_4:
           /* Position : Row = 10 , Column= 4 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xFEFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_5:
           /* Position : Row = 10 , Column= 5 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xFDFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_6:
           /* Position : Row = 10 , Column= 6 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xFBFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_7:
           /* Position : Row = 10 , Column= 7 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xF7FFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_8:
           /* Position : Row = 10 , Column= 8 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xEFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_9:
           /* Position : Row = 10 , Column= 9*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xDFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_10:
           /* Position : Row = 10 , Column= 10*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0xBFFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_11:
           /* Position : Row = 10 , Column= 11*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER8, (uint32_t)0x7FFFFFFF, 0);
           break;
-        
+
         case PIXELCOLUMN_12:
           /* Position : Row = 10 , Column= 12*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFFE, 0);
           break;
-        
+
         case PIXELCOLUMN_13:
           /* Position : Row = 10 , Column= 13*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFFD, 0);
           break;
-        
+
         case PIXELCOLUMN_14:
           /* Position : Row = 10 , Column= 14*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFFB, 0);
           break;
-        
+
         case PIXELCOLUMN_15:
           /* Position : Row = 10 , Column= 15*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFF7, 0);
           break;
-        
+
         case PIXELCOLUMN_16:
           /* Position : Row = 10 , Column= 16*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFEF, 0);
           break;
-        
+
         case PIXELCOLUMN_17:
           /* Position : Row = 10 , Column= 17*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFDF, 0);
           break;
-        
+
         case PIXELCOLUMN_18:
           /* Position : Row = 10 , Column= 18*/
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFFBF, 0);
           break;
-        
+
         case PIXELCOLUMN_19:
           /* Position : Row = 10 , Column= 19 */
           HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER9, (uint32_t)0xFFFFFF7F, 0);
           break;
-        
+
           default:
           break;
         }
@@ -3089,24 +3062,24 @@ static void LCD_MspInit(LCD_HandleTypeDef *hlcd)
 {
   GPIO_InitTypeDef  gpioinitstruct = {0};
   RCC_OscInitTypeDef oscinitstruct = {0};
-  
+
   /*##-1- Enable PWR  peripheral Clock #######################################*/
   __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /*##-2- Allow Access and Reset the Backup Domaine ##########################*/ 
+
+  /*##-2- Allow Access and Reset the Backup Domaine ##########################*/
   /* Allow Access to Backup Domaine */
   HAL_PWR_EnableBkUpAccess();
 
   /* Reset the Backup Domaine */
-  __HAL_RCC_BACKUPRESET_FORCE(); 
+  __HAL_RCC_BACKUPRESET_FORCE();
   __HAL_RCC_BACKUPRESET_RELEASE();
-  
-  /*##-3- Configue LSE as RTC clock soucre ###################################*/ 
+
+  /*##-3- Configue LSE as RTC clock soucre ###################################*/
   oscinitstruct.OscillatorType =  RCC_OSCILLATORTYPE_LSE;
   oscinitstruct.PLL.PLLState = RCC_PLL_NONE;
   oscinitstruct.LSEState = RCC_LSE_ON;
   if(HAL_RCC_OscConfig(&oscinitstruct) != HAL_OK)
-  { 
+  {
     while(1);
   }
  __HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
@@ -3118,10 +3091,10 @@ static void LCD_MspInit(LCD_HandleTypeDef *hlcd)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
-  
+
   /*##-5- Configure peripheral GPIO ##########################################*/
   /* Configure Output for LCD */
-  /* Port A */  
+  /* Port A */
   gpioinitstruct.Pin       = GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_6 | \
                              GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | \
                              GPIO_PIN_15;
@@ -3130,37 +3103,37 @@ static void LCD_MspInit(LCD_HandleTypeDef *hlcd)
   gpioinitstruct.Speed     = GPIO_SPEED_FREQ_MEDIUM;
   gpioinitstruct.Alternate = GPIO_AF11_LCD;
   HAL_GPIO_Init(GPIOA, &gpioinitstruct);
-  
-  
+
+
   /* Configure Output for LCD */
-  /* Port B */  
+  /* Port B */
   gpioinitstruct.Pin       = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_3 | GPIO_PIN_4 | \
                              GPIO_PIN_5 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | \
                              GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | \
                              GPIO_PIN_15;
   HAL_GPIO_Init(GPIOB, &gpioinitstruct);
-  
-  
+
+
   /* Configure Output for LCD */
-  /* Port C*/  
+  /* Port C*/
   gpioinitstruct.Pin       = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | \
                              GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | \
                              GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | \
                              GPIO_PIN_12;
   HAL_GPIO_Init(GPIOC, &gpioinitstruct);
-  
+
   /* Configure Output for LCD */
-  /* Port D*/  
+  /* Port D*/
   gpioinitstruct.Pin       = GPIO_PIN_2 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | \
                              GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | \
                              GPIO_PIN_15;
   HAL_GPIO_Init(GPIOD, &gpioinitstruct);
-  
+
   /* Configure Output for LCD */
-  /* Port E*/  
+  /* Port E*/
   gpioinitstruct.Pin       = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
   HAL_GPIO_Init(GPIOE, &gpioinitstruct);
-  
+
   /*##-6- Enable LCD peripheral Clock ########################################*/
   __HAL_RCC_LCD_CLK_ENABLE();
 }
