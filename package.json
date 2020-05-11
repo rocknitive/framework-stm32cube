@@ -1,0 +1,7 @@
+{
+	"description": "STM32Cube embedded software libraries",
+	"name": "framework-stm32cube",
+	"system": "*",
+	"url": "http://www.st.com/en/embedded-software/stm32cube-embedded-software.html",
+	"version": "2.0.181130"
+}
