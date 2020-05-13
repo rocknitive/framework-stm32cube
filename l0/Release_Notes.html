@@ -206,8 +206,509 @@ STM32L081xx, STM32L082xx</span> and <span style="font-weight: bold;">STM32L083xx
 <p>Here is the list of
 references to user documents:</p><ul style="font-family: Arial;"><li><big><a target="_blank" href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00113898.pdf">UM1749<span style="background-color: yellow;"></span></a>: Description of STM32L0xx HAL and Low Layers drivers</big></li><li><big><a target="_blank" href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105259.pdf">UM1721<span style="background-color: yellow;"></span></a>: Developing Applications on STM32Cube with FatFs</big></li><li><big><a target="_blank" href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00105262.pdf">UM1722<span style="background-color: yellow;"></span></a>: Developing Applications on STM32Cube with RTOS</big></li><li><big><a target="_blank" href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00116828.pdf">UM1769<span style="background-color: yellow;"></span></a>: STM32CubeL0 Nucleo demonstration firmware</big></li><li><big><a target="_blank" href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00127895.pdf">UM1810<span style="background-color: yellow;"></span></a>: STM32L0 Discovery demonstation firmware</big></li><li><big><a target="_blank" href="http://www.st.com/st-web-ui/static/active/en/resource/technical/document/user_manual/DM00108129.pdf">UM1734<span style="background-color: yellow;"></span></a>: STM32Cube USB device library</big></li></ul><br></div></div>
 <div id="release_container" class="topic1">
+<div class="topic2" id="identification"><big>
+</big><h3><small>V1.11.2 / 22-February-2019</small></h3><big>
+</big></div>
+<div class="topic3" id="changes">
+<h4><big>Main changes</big></h4><p style="font-weight: bold; background-color: transparent; font-family: Helvetica,Arial,sans-serif;">Patch release&nbsp;of STM32CubeL0 Firmware Package</p>
+<ul><li><big>Update of HAL driver to include latest corrections.</big></li><li><big>Update of </big><big>stm32_hal_legacy.h file to&nbsp;</big><big>ensure compatibility with legacy code.</big></li><li><big>Update of FW projects to correct I2C examples.<br></big></li></ul>
+<p style="background-color: transparent; font-family: Helvetica,Arial,sans-serif;"></p></div>
+<div class="topic3" id="contents">
+<h4><big>Details</big></h4><ul><li><big><font size="-1"><big><span style="font-weight: bold;">HAL Drivers&nbsp;</span>updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span><span style="font-family: Helvetica,Arial,sans-serif;"></span></big></li></ul><ul><ul><li><big>HAL</big></li><ul><li><big>Updated HAL_GetUID() functions to correct address offset.<br></big></li></ul><li><big>Legacy</big></li><ul><li><big>Updated stm32_hal_legacy.h file to add missing definitions and ensure compatibility with legacy code.</big></li></ul></ul></ul><ul style="margin-top: 0cm;" type="square"><ul></ul>
+</ul>
+<span style="font-size: 10pt; font-family: Verdana;"></span><b><u><span style="font-family: 'Verdana','sans-serif'; color: black; font-size: 10pt;"></span></u></b><br><ul><li><big><font size="-1"><big><span style="font-weight: bold;">FW Projects&nbsp;</span>updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span><span style="font-family: Helvetica,Arial,sans-serif;"></span></big></li></ul><ul><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Updated examples to use the correct HAL_I2C_Slave_Seq_Transmit_IT() function:<br></big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L073RZ/</big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples/I2C/I2C_TwoBoards_RestartComIT</big></span></li></ul></ul><ul><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L073RZ/</big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples/I2C/</big></span><big>I2C_TwoBoards_RestartAdvComIT<br></big></li></ul></ul></ul><br><ul><li><big style="font-weight: bold;">The V1.11.2 release contains all the updates implemented in V1.11.1 release. For more details, please refer to the History.</big><br></li></ul><h4><big>Contents</big></h4><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects</span> updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span></big></li><ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big style="font-family: Arial;">The
+STM32CubeL0 Firmware package comes with a rich set of examples running
+on STMicroelectronics boards, organized by board and provided with
+preconfigured projects for the main supported toolchains. The
+exhaustive list of projects is provided in this table</big> <big>(<a href="Projects/STM32CubeProjectsList.html" target="_blank">STM32CubeProjectsList.html</a>).</big></span></big></li></ul></ul><br><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects </span>release notes</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span></big></li><ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L010RB</big></span></big></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples<big> </big>(<a href="Projects/NUCLEO-L010RB/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"></span><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L010RB/Templates/Release_Notes.html">release notes</a>)</big></span></big></li><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates<big> </big>(<a href="Projects/NUCLEO-L010RB/Templates_LL/Release_Notes.html">release notes</a>)</big></span></big></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L011K4</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L011K4/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples (<a href="Projects/NUCLEO-L011K4/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L011K4/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L011K4/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L031K6</big></span><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"></span></big></li><ul><li><small><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications</big></span></small><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"> (<big><a href="Projects/NUCLEO-L031K6/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L031K6/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples (<a href="Projects/NUCLEO-L031K6/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L031K6/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L031K6/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>32L0538DISCOVERY</big></span></big></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/32L0538DISCOVERY/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/32L0538DISCOVERY/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/32L0538DISCOVERY/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/32L0538DISCOVERY/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/32L0538DISCOVERY/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L053R8</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/NUCLEO-L053R8/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L053R8/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/NUCLEO-L053R8/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/NUCLEO-L053R8/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L053R8/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L073RZ</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/NUCLEO-L073RZ/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L073RZ/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif; font-weight: bold;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big><span style="font-weight: bold;">Examples</span> (<a href="Projects/NUCLEO-L073RZ/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Examples (<a href="Projects/NUCLEO-L073RZ/Examples_LL/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Mix HAL/LL Examples (<a href="Projects/NUCLEO-L073RZ/Examples_MIX/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/NUCLEO-L073RZ/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L073RZ/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>STM32L073Z-EVAL</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/STM32L073Z-EVAL/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/STM32L073Z-EVAL/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/STM32L073Z-EVAL/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/STM32L073Z-EVAL/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/STM32L073Z-EVAL/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul></ul></ul><br>
+<ul style="margin-top: 0cm;" type="square"></ul>
+<table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
+<caption>Released drivers components</caption><tbody>
+<tr>
+<th style="width: 268px;">Component</th>
+<th style="width: 99px;">Version</th>
+<th style="width: 179px;">License</th>
+<th>Release note</th>
+</tr>
+<tr>
+<td style="width: 268px;">Cortex-M CMSIS V4.5<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V4.5<span style="background-color: yellow;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;">STM32L0xx CMSIS<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V1.9.0<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/Device/ST/STM32L0xx/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt; font-family: Verdana;"></span></a><span style="font-weight: bold;">STM32L0xx HAL</span><span style="font-size: 10pt; font-family: Verdana; font-weight: bold;"></span><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;"></span></span></td>
+<td style="text-align: center; width: 99px;"><span style="font-weight: bold;">V1.10.2</span><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;"></span></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/STM32L0xx_HAL_Driver/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+<tr>
+<td style="width: 268px;">BSP STM32L0xx_NUCLEO_32<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V1.0.4<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/STM32L0xx_Nucleo_32/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr>
+<td style="width: 268px;">BSP STM32L0xx_NUCLEO<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V2.1.2<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/STM32L0xx_Nucleo/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP STM32L073Z_EVAL<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.3&nbsp;<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/STM32L073Z_EVAL/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+<tr>
+<td>BSP STM32L0538-Discovery<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.2.4<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/STM32L0538-Discovery/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+
+
+
+
+
+
+<tr>
+<td>BSP Common<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V5.1.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/Common/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP gde021a1<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.0.3</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/gde021a1/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP hx8347d<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.1.2</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/Components/hx8347d/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+<td>BSP mfxstm32l152<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.2</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/mfxstm32l152/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+
+
+
+
+
+<tr>
+<td>BSP st7735<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-family: Verdana; font-size: 10pt;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.1.3</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/st7735/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP stlm75<span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/Components/stlm75/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+<tr>
+<td>BSP Adafruit Shield<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/Adafruit_Shield/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+<tr>
+<td>BSP Gravitech 4digitsdisplay<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">
+</span></td>
+<td style="text-align: center;">V1.0.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Gravitech_4DigitsDisplay_NanoShield/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+
+</tbody>
+</table>
+<br>
+<br>
+<table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
+<caption>Released Middleware components</caption><tbody>
+<tr>
+<th style="width: 268px;">Component</th>
+<th style="width: 99px;">Version</th>
+<th style="width: 179px;">License</th>
+<th>Release note</th>
+</tr>
+
+<tr>
+<td style="width: 268px;">STM32 USB Device Library<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V2.5.1<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 179px;"><a href="http://www.st.com/software_license_agreement_liberty_v2">Ultimate Liberty license</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Middlewares/ST/STM32_USB_Device_Library/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt; font-family: Verdana;"></span></a>STM32 TouchSensing Library<span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;; color: black;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V2.2.0</td>
+<td style="text-align: center; width: 179px;"><a href="http://www.st.com/software_license_agreement_liberty_v2">Ultimate Liberty license</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="Middlewares/ST/STM32_TouchSensing_Library/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td colspan="1" rowspan="2" style="width: 268px;">FatFS R0.12c ST modified 20171117<span style="font-family: Verdana; font-size: 10pt;"></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 99px;">R0.12c<br>ST modified 20171117<span style="font-family: Verdana; font-size: 10pt;"></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 179px;">FatFs License and MCD-ST Liberty Software License Agreement v2<a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank"><br></a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FatFs/src/00history.txt">release notes</a></span><a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FatFs/src/00history.txt"></a></td>
+</tr>
+<tr style="font-family: Verdana;" align="center"><td><span style="font-size: 10pt;"><a href="Middlewares/Third_Party/FatFs/src/st_readme.txt">release
+notes</a></span></td></tr><tr>
+<td colspan="1" rowspan="2" style="width: 268px;">FreeRTOS V10.0.1 ST modified 20180813<span style="font-family: Verdana; font-size: 10pt;"></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 99px;"><span style="font-size: 10pt; font-family: Verdana;"></span>V10.0.1<br>ST modified 20180813<span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-family: Verdana; font-size: 10pt;"><span class="Apple-converted-space"></span></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 179px;">FreeRTOS Modified GPL License and MCD-ST Liberty Software License Agreement v2<a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank"><br></a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Middlewares/Third_Party/FreeRTOS/Source/readme.txt" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr style="font-family: Verdana;" align="center"><td><span style="font-size: 10pt;"></span><a href="Middlewares/Third_Party/FreeRTOS/Source/st_readme.txt" style="color: blue; text-decoration: underline;">release
+notes</a></td></tr>
+</tbody>
+</table>
+<br><br>
+<table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
+<caption>Released Utilities components</caption><tbody>
+<tr>
+<th style="width: 268px;">Component</th>
+<th style="width: 99px;">Version</th>
+<th style="width: 179px;">License</th>
+<th>Release note</th>
+</tr>
+<tr>
+<td style="width: 268px;">CPU<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V1.1.0<span style="background-color: yellow;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Middlewares/ST/STM32_USB_Host_Library/Release_Notes.html"><span style="font-size: 10pt;"></span></a><a href="Utilities/CPU/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;">Fonts<span style="font-size: 10pt; font-family: Verdana;"> </span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"> </span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">&nbsp;</span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"> </span></td>
+<td style="text-align: center; width: 99px;">V1.0.0</td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Utilities/Fonts/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt; font-family: Verdana;"></span></a>Log<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;; color: black; font-weight: normal;"></span><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;"></span></span></td>
+<td style="text-align: center; width: 99px;">V1.0.0</td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="Drivers/STM32L4xx_HAL_Driver/Release_Notes.html"><span style="font-size: 10pt;"></span></a><a href="Utilities/Log/Release_Notes.html">release
+notes</a></td>
+</tr>
+
+</tbody>
+</table>
+<br><br></div>
+<div class="topic3" id="tools">
+<h4>Development Toolchains and Compilers</h4><ul><li><big><span style="font-size: 10pt;"><big>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2&nbsp; + ST-Link</big></span></big></li><li><span style="font-size: 10pt;"><big>KEIL uVision (MDK-ARM) toolchain V5.25 + Keil.STM32L0xx_DFP.1.4.0 + ST-Link</big></span></li><li><span style="font-size: 10pt;"><big>System Workbench STM32 (SW4STM32) toolchain V2.5 + ST-Link</big></span></li></ul><br></div>
+<div class="topic3" id="boards">
+<h4>Supported Devices and Boards</h4><ul><li><big>STM32L010xx product lines</big></li><li><big>STM32L011xx and STM32L021xx product lines</big></li><li><big>STM32L031xx and STM32L041xx product lines</big></li><li><big>STM32L051xx, STM32L052xx, STM32L053xx, STM32L062xx and STM32L063xx product lines</big></li><li><big>STM32L071xx, STM32L072xx, STM32L073xx, STM32L082xx and STM32L083xx product lines</big></li></ul><ul><li><big>NUCLEO-L010RB Board MB1136 Rev C</big></li><li><big>NUCLEO-L011K4 Board MB1180 RevC</big></li><li><big>NUCLEO-L031K6 Board MB1180 RevC</big></li><li><big>NUCLEO-L053R8 Board </big><big>MB1136 </big><big>RevC</big></li><li><big>NUCLEO-L073RZ Board </big><big>MB1136 </big><big>RevC</big></li><li><big>STM32L073Z-EVAL Board </big><big>MB1169 </big><big>RevB</big></li><li><big>32L0538DISCOVERY Board </big><big>MB1143 </big><big>RevB</big></li></ul><br></div>
+<br><div class="topic3" id="tools">
+<h4>Known limitations</h4><ul><li><big><span style="font-size: 10pt;"><big>SW4STM32 project is not provided for 32L0538DISCOVERY/Demonstrations</big></span></big></li><li><big><span style="font-size: 10pt;"><big>MDK-ARM </big></span></big><big><span style="font-size: 10pt;"><big>project is&nbsp;not provided for NUCLEO-L053R8/Applications/USB_Device/DFU_Standalone</big></span></big></li><li><big><span style="font-size: 10pt;"></span></big><big><span style="font-size: 10pt;"><big>MDK-ARM and&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>SW4STM32 projects are not provided for&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>NUCLEO-L053R8/Applications/USB_Device/HID_Standalone_BCD<br></big></span></big></li></ul><br></div>
+
+<br><br></div>
+<div style="margin-left: 40px;"><button id="filter_hist" onclick="toggle_history()">Show
+History</button><br>
+</div>
+<div id="history" class="topic1" hidden="">
+<h2>Update History</h2>
+<br><br>
+<div id="release_container" class="topic1">
 <div class="topic2" id="identification">
-<h3>V1.11.0 / 26-October-2018</h3>
+<div class="topic2" id="identification">
+<h3><small>V1.11.1 / 08-February-2018</small></h3><div class="topic3" id="changes">
+<h4><big>Main changes</big></h4><p style="font-weight: bold; background-color: transparent; font-family: Helvetica,Arial,sans-serif;">Patch release&nbsp;of STM32CubeL0 Firmware Package</p>
+<ul><li><big>Update of HAL FLASH, RCC and SPI drivers to include latest corrections.</big></li></ul>
+<p style="background-color: transparent; font-family: Helvetica,Arial,sans-serif;"></p></div>
+<div class="topic3" id="contents">
+<h4><big>Details</big></h4><ul><li><big><font size="-1"><big><span style="font-weight: bold;">HAL Drivers&nbsp;</span>updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span><span style="font-family: Helvetica,Arial,sans-serif;"></span></big></li></ul><ul><ul><li><big>HAL RCC</big></li><ul><li><big>Updated HAL_RCC_OscConfig() to add missing checks and to modify return status.</big></li></ul><li><big>HAL FLASH</big></li><ul><li><big>Updated HAL_FLASH_Unlock() and HAL_FLASH_OB_Unlock() to handle interrupts disabling.</big></li></ul><ul><li><big>Updated FLASH_OB_GetRDP() to return the correct RDP level.</big></li></ul><li><big>HAL SPI</big></li><ul><li><big>Updated HAL SPI driver to handle STM32L0 erratasheets.</big></li></ul></ul></ul>
+<span style="font-size: 10pt; font-family: Verdana;"></span><b><u><span style="font-family: 'Verdana','sans-serif'; color: black; font-size: 10pt;"></span></u></b><br><h4><big>Contents</big></h4><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects</span> updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span></big></li><ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big style="font-family: Arial;">The
+STM32CubeL0 Firmware package comes with a rich set of examples running
+on STMicroelectronics boards, organized by board and provided with
+preconfigured projects for the main supported toolchains. The
+exhaustive list of projects is provided in this table</big> <big>(<a href="Projects/STM32CubeProjectsList.html" target="_blank">STM32CubeProjectsList.html</a>).</big></span></big></li></ul></ul><br><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects </span>release notes</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span></big></li><ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L010RB</big></span></big></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples<big> </big>(<a href="Projects/NUCLEO-L010RB/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"></span><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L010RB/Templates/Release_Notes.html">release notes</a>)</big></span></big></li><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates<big> </big>(<a href="Projects/NUCLEO-L010RB/Templates_LL/Release_Notes.html">release notes</a>)</big></span></big></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L011K4</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L011K4/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples (<a href="Projects/NUCLEO-L011K4/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L011K4/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L011K4/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L031K6</big></span><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"></span></big></li><ul><li><small><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications</big></span></small><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"> (<big><a href="Projects/NUCLEO-L031K6/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L031K6/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples (<a href="Projects/NUCLEO-L031K6/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L031K6/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L031K6/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>32L0538DISCOVERY</big></span></big></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/32L0538DISCOVERY/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/32L0538DISCOVERY/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/32L0538DISCOVERY/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/32L0538DISCOVERY/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/32L0538DISCOVERY/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L053R8</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/NUCLEO-L053R8/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L053R8/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/NUCLEO-L053R8/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/NUCLEO-L053R8/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L053R8/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L073RZ</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/NUCLEO-L073RZ/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L073RZ/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/NUCLEO-L073RZ/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Examples (<a href="Projects/NUCLEO-L073RZ/Examples_LL/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Mix HAL/LL Examples (<a href="Projects/NUCLEO-L073RZ/Examples_MIX/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/NUCLEO-L073RZ/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L073RZ/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>STM32L073Z-EVAL</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/STM32L073Z-EVAL/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/STM32L073Z-EVAL/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/STM32L073Z-EVAL/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/STM32L073Z-EVAL/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/STM32L073Z-EVAL/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul></ul></ul><br>
+
+<table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
+<caption>Released drivers components</caption><tbody>
+<tr>
+<th style="width: 268px;">Component</th>
+<th style="width: 99px;">Version</th>
+<th style="width: 179px;">License</th>
+<th>Release note</th>
+</tr>
+<tr>
+<td style="width: 268px;">Cortex-M CMSIS V4.5<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V4.5<span style="background-color: yellow;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;">STM32L0xx CMSIS<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V1.9.0<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/Device/ST/STM32L0xx/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt; font-family: Verdana;"></span></a><span style="font-weight: bold;">STM32L0xx HAL</span><span style="font-size: 10pt; font-family: Verdana; font-weight: bold;"></span><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;"></span></span></td>
+<td style="text-align: center; width: 99px;"><span style="font-weight: bold;">V1.10.1</span><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;"></span></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/STM32L0xx_HAL_Driver/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+<tr>
+<td style="width: 268px;">BSP STM32L0xx_NUCLEO_32<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V1.0.4<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/STM32L0xx_Nucleo_32/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr>
+<td style="width: 268px;">BSP STM32L0xx_NUCLEO<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V2.1.2<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/STM32L0xx_Nucleo/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP STM32L073Z_EVAL<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.3&nbsp;<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/STM32L073Z_EVAL/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+<tr>
+<td>BSP STM32L0538-Discovery<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.2.4<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/STM32L0538-Discovery/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+
+
+
+
+
+
+<tr>
+<td>BSP Common<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V5.1.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/Common/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP gde021a1<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.0.3</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/gde021a1/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP hx8347d<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.1.2</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/Components/hx8347d/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+<td>BSP mfxstm32l152<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.2</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/mfxstm32l152/Release_Notes.html">release
+notes</a></span></td>
+</tr>
+
+
+
+
+
+<tr>
+<td>BSP st7735<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-family: Verdana; font-size: 10pt;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V1.1.3</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Components/st7735/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr>
+<td>BSP stlm75<span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/Components/stlm75/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+<tr>
+<td>BSP Adafruit Shield<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"><br>
+</span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center;">V2.0.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"></span><a href="Drivers/BSP/Adafruit_Shield/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></td>
+</tr>
+<tr>
+<td>BSP Gravitech 4digitsdisplay<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">
+</span></td>
+<td style="text-align: center;">V1.0.1</td>
+<td style="text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Drivers/BSP/Gravitech_4DigitsDisplay_NanoShield/Release_Notes.html" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+
+</tbody>
+</table>
+<br>
+<br>
+<table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
+<caption>Released Middleware components</caption><tbody>
+<tr>
+<th style="width: 268px;">Component</th>
+<th style="width: 99px;">Version</th>
+<th style="width: 179px;">License</th>
+<th>Release note</th>
+</tr>
+
+<tr>
+<td style="width: 268px;">STM32 USB Device Library<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V2.5.1<span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 179px;"><a href="http://www.st.com/software_license_agreement_liberty_v2">Ultimate Liberty license</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Middlewares/ST/STM32_USB_Device_Library/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt; font-family: Verdana;"></span></a>STM32 TouchSensing Library<span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;; color: black;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V2.2.0</td>
+<td style="text-align: center; width: 179px;"><a href="http://www.st.com/software_license_agreement_liberty_v2">Ultimate Liberty license</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="Middlewares/ST/STM32_TouchSensing_Library/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td colspan="1" rowspan="2" style="width: 268px;">FatFS R0.12c ST modified 20171117<span style="font-family: Verdana; font-size: 10pt;"></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 99px;">R0.12c<br>ST modified 20171117<span style="font-family: Verdana; font-size: 10pt;"></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 179px;">FatFs License and MCD-ST Liberty Software License Agreement v2<a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank"><br></a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FatFs/src/00history.txt">release notes</a></span></td>
+</tr>
+<tr style="font-family: Verdana;" align="center"><td><span style="font-size: 10pt;"><a href="Middlewares/Third_Party/FatFs/src/st_readme.txt">release
+notes</a></span></td></tr><tr>
+<td colspan="1" rowspan="2" style="width: 268px;">FreeRTOS V10.0.1 ST modified 20180813<span style="font-family: Verdana; font-size: 10pt;"></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 99px;"><span style="font-size: 10pt; font-family: Verdana;"></span>V10.0.1<br>ST modified 20180813<span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-family: Verdana; font-size: 10pt;"></span><span style="font-family: Verdana; font-size: 10pt;"><span class="Apple-converted-space"></span></span></td>
+<td colspan="1" rowspan="2" style="text-align: center; width: 179px;">FreeRTOS Modified GPL License and MCD-ST Liberty Software License Agreement v2<a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank"><br></a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a href="Middlewares/Third_Party/FreeRTOS/Source/readme.txt" style="color: blue; text-decoration: underline;">release
+notes</a></span></td>
+</tr>
+<tr style="font-family: Verdana;" align="center"><td><span style="font-size: 10pt;"></span><a href="Middlewares/Third_Party/FreeRTOS/Source/st_readme.txt" style="color: blue; text-decoration: underline;">release
+notes</a></td></tr>
+</tbody>
+</table>
+<br><br>
+<table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
+<caption>Released Utilities components</caption><tbody>
+<tr>
+<th style="width: 268px;">Component</th>
+<th style="width: 99px;">Version</th>
+<th style="width: 179px;">License</th>
+<th>Release note</th>
+</tr>
+<tr>
+<td style="width: 268px;">CPU<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span></td>
+<td style="text-align: center; width: 99px;">V1.1.0<span style="background-color: yellow;"></span></td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Middlewares/ST/STM32_USB_Host_Library/Release_Notes.html"><span style="font-size: 10pt;"></span></a><a href="Utilities/CPU/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;">Fonts<span style="font-size: 10pt; font-family: Verdana;"> </span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"> </span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;">&nbsp;</span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"> </span></td>
+<td style="text-align: center; width: 99px;">V1.0.0</td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt;"></span></a><a href="Drivers/CMSIS/index.html"><span style="font-size: 10pt;"></span></a><a href="Utilities/Fonts/Release_Notes.html">release
+notes</a></td>
+</tr>
+<tr>
+<td style="width: 268px;"><a href="https://codex.cro.st.com/plugins/docman/index.php?group_id=3244&amp;action=show&amp;id=566953" target="_blank"><span style="font-size: 10pt; font-family: Verdana;"></span></a>Log<span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: Verdana;"></span><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;; color: black; font-weight: normal;"></span><span style="font-size: 10pt; font-family: Verdana;"><span style="font-weight: bold;"></span></span></td>
+<td style="text-align: center; width: 99px;">V1.0.0</td>
+<td style="width: 179px; text-align: center;"><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank">BSD-3-Clause</a></td>
+<td style="text-align: center; font-family: Verdana;"><a href="Drivers/STM32L4xx_HAL_Driver/Release_Notes.html"><span style="font-size: 10pt;"></span></a><a href="Utilities/Log/Release_Notes.html">release
+notes</a></td>
+</tr>
+
+</tbody>
+</table>
+<br><br></div>
+<div class="topic3" id="tools">
+<h4>Development Toolchains and Compilers</h4><ul><li><big><span style="font-size: 10pt;"><big>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2&nbsp; + ST-Link</big></span></big></li><li><span style="font-size: 10pt;"><big>KEIL uVision (MDK-ARM) toolchain V5.25 + Keil.STM32L0xx_DFP.1.4.0 + ST-Link</big></span></li><li><span style="font-size: 10pt;"><big>System Workbench STM32 (SW4STM32) toolchain V2.5 + ST-Link</big></span></li></ul><br></div>
+<div class="topic3" id="boards">
+<h4>Supported Devices and Boards</h4><ul><li><big>STM32L010xx product lines</big></li><li><big>STM32L011xx and STM32L021xx product lines</big></li><li><big>STM32L031xx and STM32L041xx product lines</big></li><li><big>STM32L051xx, STM32L052xx, STM32L053xx, STM32L062xx and STM32L063xx product lines</big></li><li><big>STM32L071xx, STM32L072xx, STM32L073xx, STM32L082xx and STM32L083xx product lines</big></li></ul><ul><li><big>NUCLEO-L010RB Board MB1136 Rev C</big></li><li><big>NUCLEO-L011K4 Board MB1180 RevC</big></li><li><big>NUCLEO-L031K6 Board MB1180 RevC</big></li><li><big>NUCLEO-L053R8 Board </big><big>MB1136 </big><big>RevC</big></li><li><big>NUCLEO-L073RZ Board </big><big>MB1136 </big><big>RevC</big></li><li><big>STM32L073Z-EVAL Board </big><big>MB1169 </big><big>RevB</big></li><li><big>32L0538DISCOVERY Board </big><big>MB1143 </big><big>RevB</big></li></ul><br></div>
+<br>
+<h4>Known limitations</h4><ul><li><big><span style="font-size: 10pt;"><big>SW4STM32 project is not provided for 32L0538DISCOVERY/Demonstrations</big></span></big></li><li><big><span style="font-size: 10pt;"><big>MDK-ARM </big></span></big><big><span style="font-size: 10pt;"><big>project is&nbsp;not provided for NUCLEO-L053R8/Applications/USB_Device/DFU_Standalone</big></span></big></li><li><big><span style="font-size: 10pt;"></span></big><big><span style="font-size: 10pt;"><big>MDK-ARM and&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>SW4STM32 projects are not provided for&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>NUCLEO-L053R8/Applications/USB_Device/HID_Standalone_BCD</big></span></big></li></ul><br><h3>V1.11.0 / 26-October-2018</h3>
 </div>
 <div class="topic3" id="changes">
 <h4><big>Main changes</big></h4><p style="font-weight: bold; background-color: transparent; font-family: Helvetica,Arial,sans-serif;">Maintenance release&nbsp;of STM32CubeL0 Firmware Package</p>
@@ -218,14 +719,13 @@ references to user documents:</p><ul style="font-family: Arial;"><li><big><a tar
 <ul><ul><li><big>Add the support of <span style="font-weight: bold;">STM32L010xx</span> devices</big></li><li><big>Update </big><big>stm32l0xxxx.h device description files according to latest version of HAL/LL drivers</big></li></ul></ul><big><span style="font-size: 10pt;"></span><br></big><ul><li><big><font size="-1"><big><span style="font-weight: bold;">HAL &amp;&amp; LL Drivers&nbsp;</span>updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span><span style="font-family: Helvetica,Arial,sans-serif;"></span></big></li></ul>
 <ul><ul><li><big>Add support of new L0 Value Line devices</big></li><li><big>Add support of HAL callback registration feature</big></li><li><big>Add several enhancements implementation</big></li><li><big>Fix known defects to be aligned with others STM32 series</big></li></ul></ul><br><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Middlewares</span> updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span><span style="font-family: Helvetica,Arial,sans-serif;"></span></big></li></ul>
 <ul><ul><li><big><font size="-1"><big>Upgrade to use <span style="font-weight: bold;">STM32 TouchSensing Library V2.2.0</span></big></font></big></li><li><big><font size="-1"><big>Upgrade to use <span style="font-weight: bold;">STM32 USB Device Library V2.5.1</span></big></font></big></li><li><big><font size="-1"><big>Upgrade to use <span style="font-weight: bold;">FreeRTOS V10.0.1 (ST modified 20180813)</span></big></font></big></li><li><big><font size="-1"><big>Upgrade to use <span style="font-weight: bold;">FatFS R0.12c (ST modified 20171117)</span></big></font></big></li></ul></ul><br><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects</span> updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span><span style="font-family: Helvetica,Arial,sans-serif;"></span></big></li></ul>
-<ul><ul><li><big>Add&nbsp;new projects (Examples/Templates) running for STM32L010xx devices on NUCLEO-L010RB new board</big></li><ul><li><big><font size="-1"><big>Examples (ADC,&nbsp;Cortex,&nbsp;CRC,&nbsp;GPIO,&nbsp;IWDG,&nbsp;LPTIM,&nbsp;PWR,RCC,&nbsp;RTC,&nbsp;TIM,&nbsp;WWDG)</big></font></big></li><li><big><font size="-1"><big>Templates,&nbsp;Templates_LL<br></big></font></big></li></ul><li><big>Update of FW projects following changes in latest version of HAL/LL and Middlewares</big></li><ul><li><big><font size="-1"><big>Upgrade to USB Device Library v2.5.1 of all&nbsp;applications and demonstrations using&nbsp;</big></font></big><big><font size="-1"><big>USB Device</big></font></big></li></ul><ul><li><big><font size="-1"><big>Upgrade to FatFs R0.12c of all&nbsp;applications and demonstrations using&nbsp;</big></font></big><big><font size="-1"><big>FatFs</big></font></big></li></ul></ul></ul><span style="font-size: 10pt; font-family: Verdana;"></span><ul style="margin-top: 0cm;" type="square"><ul></ul>
-</ul>
+<ul><ul><li><big>Add&nbsp;new projects (Examples/Templates) running for STM32L010xx devices on NUCLEO-L010RB new board</big></li><ul><li><big><font size="-1"><big>Examples (ADC,&nbsp;Cortex,&nbsp;CRC,&nbsp;GPIO,&nbsp;IWDG,&nbsp;LPTIM,&nbsp;PWR,RCC,&nbsp;RTC,&nbsp;TIM,&nbsp;WWDG)</big></font></big></li><li><big><font size="-1"><big>Templates,&nbsp;Templates_LL<br></big></font></big></li></ul><li><big>Update of FW projects following changes in latest version of HAL/LL and Middlewares</big></li><ul><li><big><font size="-1"><big>Upgrade to USB Device Library v2.5.1 of all&nbsp;applications and demonstrations using&nbsp;</big></font></big><big><font size="-1"><big>USB Device</big></font></big></li></ul><ul><li><big><font size="-1"><big>Upgrade to FatFs R0.12c of all&nbsp;applications and demonstrations using&nbsp;</big></font></big><big><font size="-1"><big>FatFs</big></font></big></li></ul></ul></ul><span style="font-size: 10pt; font-family: Verdana;"></span>
 <span style="font-size: 10pt; font-family: Verdana;"></span><b><u><span style="font-family: 'Verdana','sans-serif'; color: black; font-size: 10pt;"></span></u></b><br><h4><big>Contents</big></h4><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects</span> updates</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span></big></li><ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big style="font-family: Arial;">The
 STM32CubeL0 Firmware package comes with a rich set of examples running
 on STMicroelectronics boards, organized by board and provided with
 preconfigured projects for the main supported toolchains. The
 exhaustive list of projects is provided in this table</big> <big>(<a href="Projects/STM32CubeProjectsList.html" target="_blank">STM32CubeProjectsList.html</a>).</big></span></big></li></ul></ul><br><ul><li><big><font size="-1"><big><span style="font-weight: bold;">Projects </span>release notes</big></font></big><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: bold;"></span></span></big></li><ul><li style="font-weight: bold;"><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L010RB</big></span></big></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big><span style="font-weight: bold;">HAL Examples</span><big> </big>(<a href="Projects/NUCLEO-L010RB/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"></span><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big><span style="font-weight: bold;">HAL Templates</span> (<a href="Projects/NUCLEO-L010RB/Templates/Release_Notes.html">release notes</a>)</big></span></big></li><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big><span style="font-weight: bold;">LL Templates</span><big> </big>(<a href="Projects/NUCLEO-L010RB/Templates_LL/Release_Notes.html">release notes</a>)</big></span></big></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L011K4</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L011K4/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples (<a href="Projects/NUCLEO-L011K4/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L011K4/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L011K4/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L031K6</big></span><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"></span></big></li><ul><li><small><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications</big></span></small><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"> (<big><a href="Projects/NUCLEO-L031K6/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L031K6/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Examples (<a href="Projects/NUCLEO-L031K6/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL Templates (<a href="Projects/NUCLEO-L031K6/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L031K6/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><big><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>32L0538DISCOVERY</big></span></big></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/32L0538DISCOVERY/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/32L0538DISCOVERY/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/32L0538DISCOVERY/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/32L0538DISCOVERY/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/32L0538DISCOVERY/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L053R8</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/NUCLEO-L053R8/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L053R8/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/NUCLEO-L053R8/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/NUCLEO-L053R8/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L053R8/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>NUCLEO-L073RZ</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/NUCLEO-L073RZ/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/NUCLEO-L073RZ/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/NUCLEO-L073RZ/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Examples (<a href="Projects/NUCLEO-L073RZ/Examples_LL/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Mix HAL/LL Examples (<a href="Projects/NUCLEO-L073RZ/Examples_MIX/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/NUCLEO-L073RZ/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/NUCLEO-L073RZ/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>STM32L073Z-EVAL</big></span></li><ul><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Applications (<a href="Projects/STM32L073Z-EVAL/Applications/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Demonstrations (<a href="Projects/STM32L073Z-EVAL/Demonstrations/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Examples (<a href="Projects/STM32L073Z-EVAL/Examples/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>HAL </big></span><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>Templates (<a href="Projects/STM32L073Z-EVAL/Templates/Release_Notes.html">release notes</a>)</big></span></li><li><span style="font-size: 10pt; font-family: Helvetica,Arial,sans-serif;"><big>LL Templates (<a href="Projects/STM32L073Z-EVAL/Templates_LL/Release_Notes.html">release notes</a>)</big></span></li></ul></ul></ul><br>
-<ul style="margin-top: 0cm;" type="square"></ul>
+
 <table style="width: 90%; height: 89px; text-align: left; margin-left: auto; margin-right: auto;" class="tickets" cellpadding="5" cellspacing="0">
 <caption>Released drivers components</caption><tbody>
 <tr>
@@ -404,7 +904,7 @@ notes</a></td>
 <td colspan="1" rowspan="2" style="width: 268px; font-weight: bold;">FatFS R0.12c ST modified 20171117<span style="font-family: Verdana; font-size: 10pt;"></span></td>
 <td colspan="1" rowspan="2" style="text-align: center; width: 99px; font-weight: bold;">R0.12c<br>ST modified 20171117<span style="font-family: Verdana; font-size: 10pt;"></span></td>
 <td colspan="1" rowspan="2" style="text-align: center; width: 179px;">FatFs License and MCD-ST Liberty Software License Agreement v2<a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank"><br></a></td>
-<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FatFs/src/00history.txt">release notes</a></span><a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FatFs/src/00history.txt"></a></td>
+<td style="text-align: center; font-family: Verdana;"><span style="font-size: 10pt;"><a style="color: blue; text-decoration: underline;" href="Middlewares/Third_Party/FatFs/src/00history.txt">release notes</a></span></td>
 </tr>
 <tr style="font-family: Verdana;" align="center"><td><span style="font-size: 10pt;"><a href="Middlewares/Third_Party/FatFs/src/st_readme.txt">release
 notes</a></span></td></tr><tr>
@@ -456,19 +956,8 @@ notes</a></td>
 <h4>Development Toolchains and Compilers</h4><ul><li><big><span style="font-size: 10pt;"><big>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2&nbsp; + ST-Link</big></span></big></li><li><span style="font-size: 10pt;"><big>KEIL uVision (MDK-ARM) toolchain V5.25 + Keil.STM32L0xx_DFP.1.4.0 + ST-Link</big></span></li><li><span style="font-size: 10pt;"><big>System Workbench STM32 (SW4STM32) toolchain V2.5 + ST-Link</big></span></li></ul><br></div>
 <div class="topic3" id="boards">
 <h4>Supported Devices and Boards</h4><ul><li><big>STM32L010xx product lines</big></li><li><big>STM32L011xx and STM32L021xx product lines</big></li><li><big>STM32L031xx and STM32L041xx product lines</big></li><li><big>STM32L051xx, STM32L052xx, STM32L053xx, STM32L062xx and STM32L063xx product lines</big></li><li><big>STM32L071xx, STM32L072xx, STM32L073xx, STM32L082xx and STM32L083xx product lines</big></li></ul><ul><li><big>NUCLEO-L010RB Board MB1136 Rev C</big></li><li><big>NUCLEO-L011K4 Board MB1180 RevC</big></li><li><big>NUCLEO-L031K6 Board MB1180 RevC</big></li><li><big>NUCLEO-L053R8 Board </big><big>MB1136 </big><big>RevC</big></li><li><big>NUCLEO-L073RZ Board </big><big>MB1136 </big><big>RevC</big></li><li><big>STM32L073Z-EVAL Board </big><big>MB1169 </big><big>RevB</big></li><li><big>32L0538DISCOVERY Board </big><big>MB1143 </big><big>RevB</big></li></ul><br></div>
-<br><div class="topic3" id="tools">
-<h4>Known limitations</h4><ul><li><big><span style="font-size: 10pt;"><big>SW4STM32 project is not provided for 32L0538DISCOVERY/Demonstrations</big></span></big></li><li><big><span style="font-size: 10pt;"><big>MDK-ARM </big></span></big><big><span style="font-size: 10pt;"><big>project is&nbsp;not provided for NUCLEO-L053R8/Applications/USB_Device/DFU_Standalone</big></span></big></li><li><big><span style="font-size: 10pt;"></span></big><big><span style="font-size: 10pt;"><big>MDK-ARM and&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>SW4STM32 projects are not provided for&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>NUCLEO-L053R8/Applications/USB_Device/HID_Standalone_BCD<br></big></span></big></li></ul><br></div>
-
-<br><br></div>
-<div style="margin-left: 40px;"><button id="filter_hist" onclick="toggle_history()">Show
-History</button><br>
-</div>
-<div id="history" class="topic1" hidden="">
-<h2>Update History</h2>
 <br>
-<div id="release_container" class="topic1">
-<div class="topic2" id="identification">
-<h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 500pt; width: 202px;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.10.0
+<h4>Known limitations</h4><ul><li><big><span style="font-size: 10pt;"><big>SW4STM32 project is not provided for 32L0538DISCOVERY/Demonstrations</big></span></big></li><li><big><span style="font-size: 10pt;"><big>MDK-ARM </big></span></big><big><span style="font-size: 10pt;"><big>project is&nbsp;not provided for NUCLEO-L053R8/Applications/USB_Device/DFU_Standalone</big></span></big></li><li><big><span style="font-size: 10pt;"></span></big><big><span style="font-size: 10pt;"><big>MDK-ARM and&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>SW4STM32 projects are not provided for&nbsp;</big></span></big><big><span style="font-size: 10pt;"><big>NUCLEO-L053R8/Applications/USB_Device/HID_Standalone_BCD</big></span></big></li></ul><br><br><br><h3 style="background: rgb(51, 102, 255) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-right: 500pt; width: 202px;"><span style="font-size: 10pt; font-family: Arial; color: white;">V1.10.0
 / 25-August-2017</span></h3><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;"><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;; color: black;">Main Changes</span></span></u></b><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;; color: black;"><span style="font-weight: bold;"></span></span><b><span style="font-family: 'Verdana','sans-serif'; font-size: 10pt;" lang="EN-US"><span style="color: red;"></span></span></b><ul style="list-style-type: square;"><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black; font-weight: bold;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt; font-weight: normal;"><span style="font-weight: bold;">Maintenance release.</span></span></li></ul><ul style="list-style-type: square;"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><b><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;;" lang="EN-US">\Projects</span></b><b><span style="" lang="EN-US"><o:p></o:p></span></b></li><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-family: 'Verdana','sans-serif'; font-size: 10pt;" lang="EN-US">Updated projects to fix Linux compilation errors.</span></li></ul><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black; font-weight: bold;" class="MsoNormal"><span style="font-family: Verdana; font-size: 10pt; font-weight: normal;"><span style="font-weight: bold;">\Drivers</span></span><br><ul style="list-style-type: square;"><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black; font-weight: normal;" class="MsoNormal"><span style="font-size: 10pt; font-family: &quot;Verdana&quot;,&quot;sans-serif&quot;;">The following drivers have been updated</span><span style="color: rgb(0, 0, 0); font-family: Verdana,sans-serif; font-size: 13.3333px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; display: inline ! important; float: none;">:</span></li><ul><li style="margin-top: 4.5pt; margin-bottom: 4.5pt; color: black; font-weight: normal;" class="MsoNormal"><span style="color: rgb(0, 0, 0); font-family: Verdana,sans-serif; font-size: 13.3333px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; display: inline ! important; float: none;">HAL COMP, HAL ADC, &nbsp;HAL/LL I2C, HAL PCD</span><span style="color: rgb(0, 0, 0); font-family: Verdana,sans-serif; font-size: 13.3333px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; display: inline ! important; float: none;"></span></li></ul></ul></li></ul><ul style="list-style-type: square;"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-family: 'Verdana','sans-serif'; font-size: 10pt;" lang="EN-US"><span style="font-weight: bold;">\BSP\STM32L0538-Discovery</span><br></span></li><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-family: 'Verdana','sans-serif'; font-size: 10pt;" lang="EN-US">Corrected define to prevent recursive inclusion in stm32l0538_discovery.h<br></span></li></ul></ul><br><b style=""><u><span style="font-size: 10pt; font-family: Verdana; color: black;">Contents<br></span></u></b><ul style="margin-top: 0cm;" type="square"><li class="MsoNormal" style="color: black; margin-top: 4.5pt; margin-bottom: 4.5pt;"><span style="font-size: 10pt; font-family: Verdana;">The
 STM32CubeL0 Firmware package comes with a rich set of examples running
 on STMicroelectronics boards, organized by board and provided with
