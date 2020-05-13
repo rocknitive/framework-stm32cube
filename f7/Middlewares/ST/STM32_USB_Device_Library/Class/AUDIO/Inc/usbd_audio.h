@@ -6,39 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V.
+  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted, provided that the following conditions are met:
-  *
-  * 1. Redistribution of source code must retain the above copyright notice,
-  *    this list of conditions and the following disclaimer.
-  * 2. Redistributions in binary form must reproduce the above copyright notice,
-  *    this list of conditions and the following disclaimer in the documentation
-  *    and/or other materials provided with the distribution.
-  * 3. Neither the name of STMicroelectronics nor the names of other
-  *    contributors to this software may be used to endorse or promote products
-  *    derived from this software without specific written permission.
-  * 4. This software, including modifications and/or derivative works of this
-  *    software, must execute solely and exclusively on microcontroller or
-  *    microprocessor devices manufactured by or for STMicroelectronics.
-  * 5. Redistribution and use of this software other than as permitted under
-  *    this license is void and will automatically terminate your rights under
-  *    this license.
-  *
-  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT
-  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
-  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT
-  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                      www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -48,7 +22,7 @@
 #define __USB_AUDIO_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -75,6 +49,14 @@
 #ifndef USBD_MAX_NUM_INTERFACES
 #define USBD_MAX_NUM_INTERFACES                       1U
 #endif /* USBD_AUDIO_FREQ */
+
+#ifndef AUDIO_HS_BINTERVAL
+#define AUDIO_HS_BINTERVAL                            0x01U
+#endif /* AUDIO_HS_BINTERVAL */
+
+#ifndef AUDIO_FS_BINTERVAL
+#define AUDIO_FS_BINTERVAL                            0x01U
+#endif /* AUDIO_FS_BINTERVAL */
 
 #define AUDIO_OUT_EP                                  0x01U
 #define USB_AUDIO_CONFIG_DESC_SIZ                     0x6DU
@@ -117,6 +99,9 @@
 
 #define AUDIO_OUT_STREAMING_CTRL                      0x02U
 
+#define AUDIO_OUT_TC                                  0x01U
+#define AUDIO_IN_TC                                   0x02U
+
 
 #define AUDIO_OUT_PACKET                              (uint16_t)(((USBD_AUDIO_FREQ * 2U * 2U) / 1000U))
 #define AUDIO_DEFAULT_VOLUME                          70U
@@ -127,13 +112,13 @@
 /* Total size of the audio transfer buffer */
 #define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
 
-    /* Audio Commands enumeration */
+/* Audio Commands enumeration */
 typedef enum
 {
   AUDIO_CMD_START = 1,
   AUDIO_CMD_PLAY,
   AUDIO_CMD_STOP,
-}AUDIO_CMD_TypeDef;
+} AUDIO_CMD_TypeDef;
 
 
 typedef enum
@@ -142,8 +127,7 @@ typedef enum
   AUDIO_OFFSET_HALF,
   AUDIO_OFFSET_FULL,
   AUDIO_OFFSET_UNKNOWN,
-}
-AUDIO_OffsetTypeDef;
+} AUDIO_OffsetTypeDef;
 /**
   * @}
   */
@@ -152,40 +136,37 @@ AUDIO_OffsetTypeDef;
 /** @defgroup USBD_CORE_Exported_TypesDefinitions
   * @{
   */
- typedef struct
+typedef struct
 {
-   uint8_t cmd;
-   uint8_t data[USB_MAX_EP0_SIZE];
-   uint8_t len;
-   uint8_t unit;
-}
-USBD_AUDIO_ControlTypeDef;
-
+  uint8_t cmd;
+  uint8_t data[USB_MAX_EP0_SIZE];
+  uint8_t len;
+  uint8_t unit;
+} USBD_AUDIO_ControlTypeDef;
 
 
 typedef struct
 {
-  uint32_t                  alt_setting;
-  uint8_t                   buffer[AUDIO_TOTAL_BUF_SIZE];
-  AUDIO_OffsetTypeDef       offset;
-  uint8_t                    rd_enable;
-  uint16_t                   rd_ptr;
-  uint16_t                   wr_ptr;
+  uint32_t alt_setting;
+  uint8_t buffer[AUDIO_TOTAL_BUF_SIZE];
+  AUDIO_OffsetTypeDef offset;
+  uint8_t rd_enable;
+  uint16_t rd_ptr;
+  uint16_t wr_ptr;
   USBD_AUDIO_ControlTypeDef control;
-}
-USBD_AUDIO_HandleTypeDef;
+} USBD_AUDIO_HandleTypeDef;
 
 
 typedef struct
 {
-    int8_t  (*Init)         (uint32_t  AudioFreq, uint32_t Volume, uint32_t options);
-    int8_t  (*DeInit)       (uint32_t options);
-    int8_t  (*AudioCmd)     (uint8_t* pbuf, uint32_t size, uint8_t cmd);
-    int8_t  (*VolumeCtl)    (uint8_t vol);
-    int8_t  (*MuteCtl)      (uint8_t cmd);
-    int8_t  (*PeriodicTC)   (uint8_t cmd);
-    int8_t  (*GetState)     (void);
-}USBD_AUDIO_ItfTypeDef;
+  int8_t (*Init)(uint32_t AudioFreq, uint32_t Volume, uint32_t options);
+  int8_t (*DeInit)(uint32_t options);
+  int8_t (*AudioCmd)(uint8_t *pbuf, uint32_t size, uint8_t cmd);
+  int8_t (*VolumeCtl)(uint8_t vol);
+  int8_t (*MuteCtl)(uint8_t cmd);
+  int8_t (*PeriodicTC)(uint8_t *pbuf, uint32_t size, uint8_t cmd);
+  int8_t (*GetState)(void);
+} USBD_AUDIO_ItfTypeDef;
 /**
   * @}
   */
@@ -204,8 +185,8 @@ typedef struct
   * @{
   */
 
-extern USBD_ClassTypeDef  USBD_AUDIO;
-#define USBD_AUDIO_CLASS    &USBD_AUDIO
+extern USBD_ClassTypeDef USBD_AUDIO;
+#define USBD_AUDIO_CLASS &USBD_AUDIO
 /**
   * @}
   */
@@ -213,10 +194,10 @@ extern USBD_ClassTypeDef  USBD_AUDIO;
 /** @defgroup USB_CORE_Exported_Functions
   * @{
   */
-uint8_t  USBD_AUDIO_RegisterInterface  (USBD_HandleTypeDef   *pdev,
-                                        USBD_AUDIO_ItfTypeDef *fops);
+uint8_t USBD_AUDIO_RegisterInterface(USBD_HandleTypeDef *pdev,
+                                     USBD_AUDIO_ItfTypeDef *fops);
 
-void  USBD_AUDIO_Sync (USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset);
+void USBD_AUDIO_Sync(USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset);
 /**
   * @}
   */

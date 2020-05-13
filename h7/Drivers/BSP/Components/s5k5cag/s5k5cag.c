@@ -2,35 +2,17 @@
   ******************************************************************************
   * @file    s5k5cag.c
   * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    05-March-2015
   * @brief   This file provides the S5K5CAG camera driver
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */ 
@@ -60,45 +42,98 @@
   * @}
   */ 
 
-/** @defgroup S5K5CAG_Private_Defines
-  * @{
-  */
-
-/**
-  * @}
-  */ 
-  
-/** @defgroup S5K5CAG_Private_Macros
-  * @{
-  */
-     
-/**
-  * @}
-  */  
-  
-/** @defgroup S5K5CAG_Private_FunctionPrototypes
-  * @{
-  */
-static uint32_t s5k5cag_ConvertValue(uint32_t feature, uint32_t value);
-/**
-  * @}
-  */ 
-  
-/** @defgroup S5K5CAG_Private_Variables
+/** @defgroup S5K5CAG_Private_Types S5K5CAG Private Types
   * @{
   */        
 
-CAMERA_DrvTypeDef   s5k5cag_drv =
+S5K5CAG_CAMERA_Drv_t   S5K5CAG_CAMERA_Driver = 
 {
-  s5k5cag_Init,
-  s5k5cag_ReadID,
-  s5k5cag_Config,
-};
+  S5K5CAG_Init,
+  S5K5CAG_DeInit,  
+  S5K5CAG_ReadID,
+  S5K5CAG_GetCapabilities,  
+  0, /* S5K5CAG_SetLightMode     */
+  S5K5CAG_SetColorEffect,
+  S5K5CAG_SetBrightness,
+  0, /* S5K5CAG_SetSaturation    */
+  S5K5CAG_SetContrast,
+  0, /* S5K5CAG_SetHueDegree     */
+  0, /* S5K5CAG_MirrorFlipConfig */ 
+  0, /* S5K5CAG_ZoomConfig       */
+  S5K5CAG_SetResolution,  
+  0, /* S5K5CAG_GetResolution    */
+  S5K5CAG_SetPixelFormat,
+  0, /* S5K5CAG_GetPixelFormat   */
+  0, /* S5K5CAG_NightModeConfig  */ 
+};       
 
-/* Common initialization sequence for all resolutions */
-const uint16_t S5K5CAG_Common[][2]=
+/**
+  * @}
+  */
+
+/** @defgroup S5K5CAG_Private_FunctionPrototypes S5K5CAG Private FunctionPrototypes
+  * @{
+  */
+static int32_t S5K5CAG_ReadRegWrap(void *handle, uint16_t Reg, uint8_t* Data, uint16_t Length);
+static int32_t S5K5CAG_WriteRegWrap(void *handle, uint16_t Reg, uint8_t* Data, uint16_t Length);
+static int32_t S5K5CAG_Delay(S5K5CAG_Object_t *pObj, uint32_t Delay);
+/**
+  * @}
+  */ 
+ 
+/**
+  * @brief  Register component IO bus
+  * @param  Component object pointer
+  * @retval Component status
+  */
+int32_t S5K5CAG_RegisterBusIO (S5K5CAG_Object_t *pObj, S5K5CAG_IO_t *pIO)
 {
-  /* ARM GO */
+  int32_t ret;
+  
+  if(pObj == NULL)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  else
+  {
+    pObj->IO.Init      = pIO->Init;
+    pObj->IO.DeInit    = pIO->DeInit;
+    pObj->IO.Address   = pIO->Address;
+    pObj->IO.WriteReg  = pIO->WriteReg;
+    pObj->IO.ReadReg   = pIO->ReadReg;
+    pObj->IO.GetTick   = pIO->GetTick;
+    
+    pObj->Ctx.ReadReg  = S5K5CAG_ReadRegWrap;
+    pObj->Ctx.WriteReg = S5K5CAG_WriteRegWrap;
+    pObj->Ctx.handle   = pObj;
+    
+    if(pObj->IO.Init != NULL)
+    {
+      ret = pObj->IO.Init();
+    }
+    else
+    {
+      ret = S5K5CAG_ERROR;
+    }
+  }
+  
+  return ret;
+}
+
+/**
+  * @brief  Initializes the S5K5CAG CAMERA component.
+  * @param  pObj  pointer to component object
+  * @param  Resolution  Camera resolution
+  * @param  PixelFormat pixel format to be configured
+  * @retval Component status
+  */
+int32_t S5K5CAG_Init(S5K5CAG_Object_t *pObj, uint32_t Resolution, uint32_t PixelFormat)
+{
+  uint32_t index;
+  int32_t ret = S5K5CAG_OK;
+/* Common initialization sequence for all resolutions */
+static const uint16_t S5K5CAG_Common[][2]=
+{
   /* Direct mode */
   {0xFCFC, 0xD000},
   {0x0010, 0x0001}, /* Reset */
@@ -2810,627 +2845,868 @@ const uint16_t S5K5CAG_Common[][2]=
   {0x0F12, 0x0001}, /* #REG_TC_IPRM_InitParamsUpdated */
 };
 
-
-/* Initialization sequence for 480x272 resolution */
-const uint16_t S5K5CAG_480x272[][2]=
-{
-  /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
-  /*# Size: 480x272                                       */
-  {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x0F12, 0x01e0}, /* #REG_0TC_PCFG_usWidth  - 480 */
-  {0x0F12, 0x0110}, /* #REG_0TC_PCFG_usHeight - 272 */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_Format */
-  {0x0F12, 0x1780}, /* #REG_0TC_PCFG_usMaxOut4KHzRate - 24.064MHz */
-  {0x0F12, 0x1760}, /* #REG_0TC_PCFG_usMinOut4KHzRate - 23.936MHz */
-  {0x0F12, 0x0100}, /* #REG_0TC_PCFG_OutClkPerPix88 */
-  {0x0F12, 0x0800}, /* #REG_0TC_PCFG_uMaxBpp88      */
-  /* #REG_0TC_PCFG_PVIMask           */
-  /* bit0: swap RGB high/low byte    */
-  /* bit2: VSYNC data blanking level */
-  /* bit3: HSYNC data blanking level */
-  /*{0x0F12, 0x0052}, */ /* #REG_0TC_PCFG_PVIMask - s0050 = FALSE in MSM6290 : s0052 = TRUE in MSM6800 - reg 027A */
-  {0x0F12, 0x005F}, /* #REG_0TC_PCFG_PVIMask - bit0: swap RGB high/low byte */
-  {0x0F12, 0x4000}, /* #REG_0TC_PCFG_OIFMask                                */
-  {0x0F12, 0x0400}, /* #REG_0TC_PCFG_usJpegPacketSize                       */
-  {0x0F12, 0x0258}, /* #REG_0TC_PCFG_usJpegTotalPackets                     */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_uClockInd                              */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_usFrTimeType                           */
-  {0x0F12, 0x0002}, /* #REG_0TC_PCFG_FrRateQualityType 01:Always achieve the best frame rate. 02:Always achieve the best possible image quality (no-binning mode) */
-  /*=================S5K5CAGX_CAM_NOM_MAX_FR_TIME,S5K5CAGX_CAM_NOM_MIN_FR_TIME 30fps~15fps (Arima Use)==================*/
-  {0x0F12, 0x03E8}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 10fps */
-  {0x0F12, 0x029A}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 15fps */
-  /*{0x0F12, 0x014D},*/ /* #REG_0TC_PCFG_usMinFrTimeMsecMult10 - 30fps */
-  /*==========================================================================================*/
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-
-  /* New Configuration FW Sync Preview */
-  {0x002A, 0x023C},
-  {0x0F12, 0x0000},
-  {0x002A, 0x0240},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0230},
-  {0x0F12, 0x0001},
-  {0x002A, 0x023E},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0220},
-  {0x0F12, 0x0001},
-  {0x0F12, 0x0001},
-
-  {0x0028, 0xD000},
-  {0x002A, 0x1000},
-  {0x0F12, 0x0001},
-};
-
-/* Initialization sequence for VGA resolution (640x480)*/
-const uint16_t S5K5CAG_VGA[][2]=
-{
-  /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
-  /*# Size: VGA 640x480                                   */
-  {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x0F12, 0x0280}, /* #REG_0TC_PCFG_usWidth  - 640 */
-  {0x0F12, 0x01E0}, /* #REG_0TC_PCFG_usHeight - 480 */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_Format */
-  {0x0F12, 0x1780}, /* #REG_0TC_PCFG_usMaxOut4KHzRate - 24.064MHz */
-  {0x0F12, 0x1760}, /* #REG_0TC_PCFG_usMinOut4KHzRate - 23.936MHz */
-  {0x0F12, 0x0100}, /* #REG_0TC_PCFG_OutClkPerPix88 */
-  {0x0F12, 0x0800}, /* #REG_0TC_PCFG_uMaxBpp88      */
-  /* #REG_0TC_PCFG_PVIMask           */
-  /* bit0: swap RGB high/low byte    */
-  /* bit2: VSYNC data blanking level */
-  /* bit3: HSYNC data blanking level */
-  /*{0x0F12, 0x0052}, */ /* #REG_0TC_PCFG_PVIMask - s0050 = FALSE in MSM6290 : s0052 = TRUE in MSM6800 - reg 027A */
-  {0x0F12, 0x005F}, /* #REG_0TC_PCFG_PVIMask - bit0: swap RGB high/low byte */
-  {0x0F12, 0x4000}, /* #REG_0TC_PCFG_OIFMask                                */
-  {0x0F12, 0x0400}, /* #REG_0TC_PCFG_usJpegPacketSize                       */
-  {0x0F12, 0x0258}, /* #REG_0TC_PCFG_usJpegTotalPackets                     */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_uClockInd                              */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_usFrTimeType                           */
-  {0x0F12, 0x0002}, /* #REG_0TC_PCFG_FrRateQualityType 01:Always achieve the best frame rate. 02:Always achieve the best possible image quality (no-binning mode) */
-  /*=================S5K5CAGX_CAM_NOM_MAX_FR_TIME,S5K5CAGX_CAM_NOM_MIN_FR_TIME 30fps~15fps (Arima Use)==================*/
-  {0x0F12, 0x03E8}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 10fps */
-  {0x0F12, 0x029A}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 15fps */
-  /*0x0F12, 0x014D,*/ /* #REG_0TC_PCFG_usMinFrTimeMsecMult10 - 30fps */
-  /*==========================================================================================*/
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-
-  /* New Configuration FW Sync Preview */
-  {0x002A, 0x023C},
-  {0x0F12, 0x0000},
-  {0x002A, 0x0240},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0230},
-  {0x0F12, 0x0001},
-  {0x002A, 0x023E},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0220},
-  {0x0F12, 0x0001},
-  {0x0F12, 0x0001},
-
-  {0x0028, 0xD000},
-  {0x002A, 0x1000},
-  {0x0F12, 0x0001},
-};
-
-/* Initialization sequence for QVGA resolution (320x240) */
-const uint16_t S5K5CAG_QVGA[][2]=
-{
-  /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
-  /*# Size: QVGA 320x240                                  */
-  {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x0F12, 0x0140}, /* #REG_0TC_PCFG_usWidth  - 320 */
-  {0x0F12, 0x00F0}, /* #REG_0TC_PCFG_usHeight - 240 */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_Format */
-  {0x0F12, 0x1780}, /* #REG_0TC_PCFG_usMaxOut4KHzRate - 24.064MHz */
-  {0x0F12, 0x1760}, /* #REG_0TC_PCFG_usMinOut4KHzRate - 23.936MHz */
-  {0x0F12, 0x0100}, /* #REG_0TC_PCFG_OutClkPerPix88 */
-  {0x0F12, 0x0800}, /* #REG_0TC_PCFG_uMaxBpp88      */
-  /* #REG_0TC_PCFG_PVIMask           */
-  /* bit0: swap RGB high/low byte    */
-  /* bit2: VSYNC data blanking level */
-  /* bit3: HSYNC data blanking level */
-  /*{0x0F12, 0x0052}, */ /* #REG_0TC_PCFG_PVIMask - s0050 = FALSE in MSM6290 : s0052 = TRUE in MSM6800 - reg 027A */
-  {0x0F12, 0x005F}, /* #REG_0TC_PCFG_PVIMask - bit0: swap RGB high/low byte */
-  {0x0F12, 0x4000}, /* #REG_0TC_PCFG_OIFMask                                */
-  {0x0F12, 0x0400}, /* #REG_0TC_PCFG_usJpegPacketSize                       */
-  {0x0F12, 0x0258}, /* #REG_0TC_PCFG_usJpegTotalPackets                     */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_uClockInd                              */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_usFrTimeType                           */
-  {0x0F12, 0x0002}, /* #REG_0TC_PCFG_FrRateQualityType 01:Always achieve the best frame rate. 02:Always achieve the best possible image quality (no-binning mode) */
-  /*=================S5K5CAGX_CAM_NOM_MAX_FR_TIME,S5K5CAGX_CAM_NOM_MIN_FR_TIME 30fps~15fps (Arima Use)==================*/
-  {0x0F12, 0x03E8}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 10fps */
-  {0x0F12, 0x029A}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 15fps */
-  /*{0x0F12, 0x014D},*/ /* #REG_0TC_PCFG_usMinFrTimeMsecMult10 - 30fps */
-  /*==========================================================================================*/
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-
-  /* New Configuration FW Sync Preview */
-  {0x002A, 0x023C},
-  {0x0F12, 0x0000},
-  {0x002A, 0x0240},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0230},
-  {0x0F12, 0x0001},
-  {0x002A, 0x023E},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0220},
-  {0x0F12, 0x0001},
-  {0x0F12, 0x0001},
-
-  {0x0028, 0xD000},
-  {0x002A, 0x1000},
-  {0x0F12, 0x0001},
-};
-
-/* Initialization sequence for QQVGA resolution (160x120) */
-const uint16_t S5K5CAG_QQVGA[][2]=
-{
-  /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
-  /*# Size: QQVGA 160x120                                 */
-  {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
-  {0x0F12, 0x00A0}, /* #REG_0TC_PCFG_usWidth  - 160 */
-  {0x0F12, 0x0078}, /* #REG_0TC_PCFG_usHeight - 120 */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_Format */
-  {0x0F12, 0x1780}, /* #REG_0TC_PCFG_usMaxOut4KHzRate - 24.064MHz */
-  {0x0F12, 0x1760}, /* #REG_0TC_PCFG_usMinOut4KHzRate - 23.936MHz */
-  {0x0F12, 0x0100}, /* #REG_0TC_PCFG_OutClkPerPix88 */
-  {0x0F12, 0x0800}, /* #REG_0TC_PCFG_uMaxBpp88      */
-  /* #REG_0TC_PCFG_PVIMask           */
-  /* bit0: swap RGB high/low byte    */
-  /* bit2: VSYNC data blanking level */
-  /* bit3: HSYNC data blanking level */
-  /*{0x0F12, 0x0052}, */ /* #REG_0TC_PCFG_PVIMask - s0050 = FALSE in MSM6290 : s0052 = TRUE in MSM6800 - reg 027A */
-  {0x0F12, 0x005F}, /* #REG_0TC_PCFG_PVIMask - bit0: swap RGB high/low byte */
-  {0x0F12, 0x4000}, /* #REG_0TC_PCFG_OIFMask                                */
-  {0x0F12, 0x0400}, /* #REG_0TC_PCFG_usJpegPacketSize                       */
-  {0x0F12, 0x0258}, /* #REG_0TC_PCFG_usJpegTotalPackets                     */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_uClockInd                              */
-  {0x0F12, 0x0000}, /* #REG_0TC_PCFG_usFrTimeType                           */
-  {0x0F12, 0x0002}, /* #REG_0TC_PCFG_FrRateQualityType 01:Always achieve the best frame rate. 02:Always achieve the best possible image quality (no-binning mode) */
-  /*=================S5K5CAGX_CAM_NOM_MAX_FR_TIME,S5K5CAGX_CAM_NOM_MIN_FR_TIME 30fps~15fps (Arima Use)==================*/
-  {0x0F12, 0x03E8}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 10fps */
-  {0x0F12, 0x029A}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 15fps */
-  /*{0x0F12, 0x014D},*/ /* #REG_0TC_PCFG_usMinFrTimeMsecMult10 - 30fps */
-  /*==========================================================================================*/
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-  {0x0F12, 0x0000},
-
-  /* New Configuration FW Sync Preview */
-  {0x002A, 0x023C},
-  {0x0F12, 0x0000},
-  {0x002A, 0x0240},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0230},
-  {0x0F12, 0x0001},
-  {0x002A, 0x023E},
-  {0x0F12, 0x0001},
-  {0x002A, 0x0220},
-  {0x0F12, 0x0001},
-  {0x0F12, 0x0001},
-
-  {0x0028, 0xD000},
-  {0x002A, 0x1000},
-  {0x0F12, 0x0001},
-};
+  uint16_t tmp;
+  
+  /* Check if resolution is supported */
+  if((Resolution > S5K5CAG_R800x480) && (PixelFormat > S5K5CAG_YUV422))
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  else
+  {
+    /* Set common parameters for all resolutions */
+    for(index=0; index<(sizeof(S5K5CAG_Common)/4U); index++)
+    {
+      if(ret != S5K5CAG_ERROR)
+      { 
+        if(0xFFFFU == S5K5CAG_Common[index][0])
+        {
+          (void)S5K5CAG_Delay(pObj, (S5K5CAG_Common[index][1]));
+        }
+        else
+        {
+          tmp = S5K5CAG_Common[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_Common[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+    }
+    
+    if(ret == S5K5CAG_OK)
+    {
+      /* Set specific parameters for each pixel format */
+      if(S5K5CAG_SetPixelFormat(pObj, PixelFormat) != S5K5CAG_OK)
+      {
+        ret = S5K5CAG_ERROR;
+      }/* Set specific parameters for each resolution */
+      else if(S5K5CAG_SetResolution(pObj, Resolution) != S5K5CAG_OK)
+      {
+        ret = S5K5CAG_ERROR;
+      }  
+      else
+      {  
+        pObj->IsInitialized = 1U;
+      }
+    } 
+  }
+  
+  return ret;
+}
 
 /**
   * @}
   */
   
-/** @defgroup S5K5CAG_Private_Functions
+/** @defgroup S5K5CAG_Private_Functions S5K5CAG Private Functions
   * @{
   */ 
-  
+
+
 /**
-  * @brief  Initializes the S5K5CAG CAMERA component.
-  * @param  DeviceAddr: Device address on communication Bus.
-  * @param  resolution: Camera resolution
-  * @retval None
+  * @brief  Deinitializes the camera sensor.
+  * @param  pObj  pointer to component object
+  * @retval Component status
   */
-void s5k5cag_Init(uint16_t DeviceAddr, uint32_t resolution)
+int32_t S5K5CAG_DeInit(S5K5CAG_Object_t *pObj)
 {
-  uint32_t index;
-  
-  /* Initialize I2C */
-  CAMERA_IO_Init();
-
-  if ((resolution == CAMERA_R160x120) ||    /* Check if resolution is supported */
-      (resolution == CAMERA_R320x240) ||
-      (resolution == CAMERA_R480x272) ||
-      (resolution == CAMERA_R640x480))
+  if(pObj->IsInitialized == 1U)
   {
-    /* Set common parameters for all resolutions */
-    for(index=0; index<(sizeof(S5K5CAG_Common)/4); index++)
-    {
-      if(0xFFFF == S5K5CAG_Common[index][0])
-      {
-        CAMERA_Delay(S5K5CAG_Common[index][1]);
-      }
-      else
-      {
-        CAMERA_IO_Write(DeviceAddr, S5K5CAG_Common[index][0], S5K5CAG_Common[index][1]);
-        CAMERA_Delay(1);
-      }
-    }
-
-    /* Set specific parameters for each resolution */
-    switch (resolution)
-    {
-    case CAMERA_R160x120:
-      {
-        for(index=0; index<(sizeof(S5K5CAG_QQVGA)/4); index++)
-        {
-          CAMERA_IO_Write(DeviceAddr, S5K5CAG_QQVGA[index][0], S5K5CAG_QQVGA[index][1]);
-          CAMERA_Delay(1);
-        }
-        break;
-      }
-    case CAMERA_R320x240:
-      {
-        for(index=0; index<(sizeof(S5K5CAG_QVGA)/4); index++)
-        {
-          CAMERA_IO_Write(DeviceAddr, S5K5CAG_QVGA[index][0], S5K5CAG_QVGA[index][1]);
-          CAMERA_Delay(1);
-        }
-        break;
-      }
-    case CAMERA_R480x272:
-      {
-        for(index=0; index<(sizeof(S5K5CAG_480x272)/4); index++)
-        {
-          CAMERA_IO_Write(DeviceAddr, S5K5CAG_480x272[index][0], S5K5CAG_480x272[index][1]);
-          CAMERA_Delay(1);
-        }
-        break;
-      }
-    case CAMERA_R640x480:
-      {
-        for(index=0; index<(sizeof(S5K5CAG_VGA)/4); index++)
-        {
-          CAMERA_IO_Write(DeviceAddr, S5K5CAG_VGA[index][0], S5K5CAG_VGA[index][1]);
-          CAMERA_Delay(1);
-        }
-        break;
-      }
-    default:
-      {
-        break;
-      }
-    }
+    pObj->IsInitialized = 0U;
   }
+  
+  return S5K5CAG_OK;  
 }
 
 /**
-  * @brief  Configures the S5K5CAG camera feature.
-  * @param  DeviceAddr: Device address on communication Bus.
-  * @param  feature: Camera feature to be configured
-  * @param  value: Value to be configured
-  * @param  brightness_value: Brightness value to be configured
-  * @retval None
+  * @brief  Set S5K5CAG camera Pixel Format.
+  * @param  pObj  pointer to component object
+  * @param  PixelFormat pixel format to be configured
+  * @retval Component status
   */
-void s5k5cag_Config(uint16_t DeviceAddr, uint32_t feature, uint32_t value, uint32_t brightness_value)
+int32_t S5K5CAG_SetPixelFormat(S5K5CAG_Object_t *pObj, uint32_t PixelFormat)
 {
-  uint32_t value_tmp;
-  uint32_t br_value;
-  uint32_t r_gain = 0xA0;
-  uint32_t g_gain = 0xA0;
-  uint32_t b_gain = 0xA0;
+  uint32_t index;
+  int32_t ret = S5K5CAG_OK;
+  uint16_t tmp;
   
-  /* Convert the input value into s5k5cag parameters */
-  value_tmp = s5k5cag_ConvertValue(feature, value);
-  br_value = s5k5cag_ConvertValue(CAMERA_CONTRAST_BRIGHTNESS, brightness_value);
-    
-  switch(feature)
+  /* Initialization sequence for pixel format */
+  static const uint16_t S5K5CAG_PIXEL_FORMAT[][2]=
   {
-  case CAMERA_BLACK_WHITE:
+    {0x0F12, 0x1780}, /* #REG_0TC_PCFG_usMaxOut4KHzRate - 24.064MHz */
+    {0x0F12, 0x1760}, /* #REG_0TC_PCFG_usMinOut4KHzRate - 23.936MHz */
+    {0x0F12, 0x0100}, /* #REG_0TC_PCFG_OutClkPerPix88 */
+    {0x0F12, 0x0800}, /* #REG_0TC_PCFG_uMaxBpp88      */
+    /* #REG_0TC_PCFG_PVIMask           */
+    /* bit0: swap RGB high/low byte    */
+    /* bit2: VSYNC data blanking level */
+    /* bit3: HSYNC data blanking level */
+    /*{0x0F12, 0x0052}, */ /* #REG_0TC_PCFG_PVIMask - s0050 = FALSE in MSM6290 : s0052 = TRUE in MSM6800 - reg 027A */
+    {0x0F12, 0x005F}, /* #REG_0TC_PCFG_PVIMask - bit0: swap RGB high/low byte */
+    {0x0F12, 0x4000}, /* #REG_0TC_PCFG_OIFMask                                */
+    {0x0F12, 0x0400}, /* #REG_0TC_PCFG_usJpegPacketSize                       */
+    {0x0F12, 0x0258}, /* #REG_0TC_PCFG_usJpegTotalPackets                     */
+    {0x0F12, 0x0000}, /* #REG_0TC_PCFG_uClockInd                              */
+    {0x0F12, 0x0000}, /* #REG_0TC_PCFG_usFrTimeType                           */
+    {0x0F12, 0x0002}, /* #REG_0TC_PCFG_FrRateQualityType 01:Always achieve the best frame rate. 02:Always achieve the best possible image quality (no-binning mode) */
+    /*=================S5K5CAGX_CAM_NOM_MAX_FR_TIME,S5K5CAGX_CAM_NOM_MIN_FR_TIME 30fps~15fps (Arima Use)==================*/
+    {0x0F12, 0x03E8}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 10fps */
+    {0x0F12, 0x029A}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 15fps */
+    /*{0x0F12, 0x014D},*/ /* #REG_0TC_PCFG_usMinFrTimeMsecMult10 - 30fps */
+    /*==========================================================================================*/
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    
+    /* New Configuration FW Sync Preview */
+    {0x002A, 0x023C},
+    {0x0F12, 0x0000},
+    {0x002A, 0x0240},
+    {0x0F12, 0x0001},
+    {0x002A, 0x0230},
+    {0x0F12, 0x0001},
+    {0x002A, 0x023E},
+    {0x0F12, 0x0001},
+    {0x002A, 0x0220},
+    {0x0F12, 0x0001},
+    {0x0F12, 0x0001},
+    
+    {0x0028, 0xD000},
+    {0x002A, 0x1000},
+    {0x0F12, 0x0001},  
+  };
+  
+  /* Initialization sequence for RGB565 pixel format */
+  static const uint16_t S5K5CAG_PF_RGB565[][2]=
+  {
+    /*  SET PIXEL FORMAT: RGB565 */
+    {0x0028, 0x7000}, /* SET PIXEL FORMAT  */
+    {0x002A, 0x0270}, /* SET PIXEL FORMAT  */
+    {0x0F12, 0x0000}, /* #REG_0TC_PCFG_Format RGB565 */
+  };
+  
+  /* Initialization sequence for RGB888 pixel format */
+  static const uint16_t S5K5CAG_PF_RGB888[][2]=
+  {
+    /*  SET PIXEL FORMAT: RGB888 */
+    {0x0028, 0x7000}, /* SET PIXEL FORMAT  */
+    {0x002A, 0x0270}, /* SET PIXEL FORMAT  */
+    {0x0F12, 0x0001}, /* #REG_0TC_PCFG_Format RGB888 */
+  };
+  
+  /* Initialization sequence for YUV422 pixel format */
+  static const uint16_t S5K5CAG_PF_YUV422[][2]=
+  {
+    /*  SET PIXEL FORMAT: YUV422 */
+    {0x0028, 0x7000}, /* SET PIXEL FORMAT  */
+    {0x002A, 0x0270}, /* SET PIXEL FORMAT  */
+    {0x0F12, 0x0005}, /* #REG_0TC_PCFG_Format YUV422 */
+  };
+  
+  /* Check if PixelFormat is supported */
+  if(PixelFormat > S5K5CAG_YUV422)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  else
+  {    
+    /* Set specific parameters for each PixelFormat */
+    switch (PixelFormat)
     {
-      CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000);  /* Reset previous color effect settings */
-      CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04D6);
-      CAMERA_IO_Write(DeviceAddr, 0x0F12, 0x0001);
-      CAMERA_Delay(100); /* Wait for 100ms */
-
-      CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_TC_GP_SpecialEffects register (0x70000021E) */
-      CAMERA_IO_Write(DeviceAddr, 0x002A, 0x021E); /* REG_TC_GP_SpecialEffects register */
-      CAMERA_IO_Write(DeviceAddr, 0x0F12, value_tmp);
+    case S5K5CAG_RGB888:
+      for(index=0; index<(sizeof(S5K5CAG_PF_RGB888)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        { 
+          tmp = S5K5CAG_PF_RGB888[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_PF_RGB888[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;
+    case S5K5CAG_YUV422:
+      for(index=0; index<(sizeof(S5K5CAG_PF_YUV422)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_PF_YUV422[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_PF_YUV422[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;
+    case S5K5CAG_RGB565:
+    default:  
+      for(index=0; index<(sizeof(S5K5CAG_PF_RGB565)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_PF_RGB565[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_PF_RGB565[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }     
       break;
     }
-  case CAMERA_CONTRAST_BRIGHTNESS:
+    
+    for(index=0; index<(sizeof(S5K5CAG_PIXEL_FORMAT)/4U); index++)
     {
-      /* Set brightness */
-      CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_TC_UserBrightness register (0x70000020C) */
-      CAMERA_IO_Write(DeviceAddr, 0x002A, 0x020C); /* REG_TC_UserBrightness register */
-      CAMERA_IO_Write(DeviceAddr, 0x0F12, br_value);
+      if(ret != S5K5CAG_ERROR)
+      {
+        tmp = S5K5CAG_PIXEL_FORMAT[index][1];
+        if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_PIXEL_FORMAT[index][0], &tmp, 2) != S5K5CAG_OK)
+        {
+          ret = S5K5CAG_ERROR;
+        }
+        else
+        {
+          (void)S5K5CAG_Delay(pObj, 1);
+        }
+      }
+    }    
+  }
+  
+  return ret;
+}
 
-      /* Set contrast */
-      CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_TC_UserContrast register (0x70000020E) */
-      CAMERA_IO_Write(DeviceAddr, 0x002A, 0x020E); /* REG_TC_UserContrast register */
-      CAMERA_IO_Write(DeviceAddr, 0x0F12, value_tmp);
+/**
+  * @brief  Set S5K5CAG camera resolution.
+  * @param  pObj  pointer to component object
+  * @param  Resolution  Camera resolution
+  * @retval Component status
+  */
+int32_t S5K5CAG_SetResolution(S5K5CAG_Object_t *pObj, uint32_t Resolution)
+{
+  uint32_t index;
+  int32_t ret = S5K5CAG_OK;
+  uint16_t tmp;
+  
+  static const uint16_t S5K5CAG_RES[][2]=
+  {
+    /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
+    {0x0028, 0x7000},
+    {0x002A, 0x0272},
+    {0x0F12, 0x1780}, /* #REG_0TC_PCFG_usMaxOut4KHzRate - 24.064MHz */
+    {0x0F12, 0x1760}, /* #REG_0TC_PCFG_usMinOut4KHzRate - 23.936MHz */
+    {0x0F12, 0x0100}, /* #REG_0TC_PCFG_OutClkPerPix88 */
+    {0x0F12, 0x0800}, /* #REG_0TC_PCFG_uMaxBpp88      */
+    /* #REG_0TC_PCFG_PVIMask           */
+    /* bit0: swap RGB high/low byte    */
+    /* bit2: VSYNC data blanking level */
+    /* bit3: HSYNC data blanking level */
+    /*{0x0F12, 0x0052}, */ /* #REG_0TC_PCFG_PVIMask - s0050 = FALSE in MSM6290 : s0052 = TRUE in MSM6800 - reg 027A */
+    {0x0F12, 0x005F}, /* #REG_0TC_PCFG_PVIMask - bit0: swap RGB high/low byte */
+    {0x0F12, 0x4000}, /* #REG_0TC_PCFG_OIFMask                                */
+    {0x0F12, 0x0400}, /* #REG_0TC_PCFG_usJpegPacketSize                       */
+    {0x0F12, 0x0258}, /* #REG_0TC_PCFG_usJpegTotalPackets                     */
+    {0x0F12, 0x0000}, /* #REG_0TC_PCFG_uClockInd                              */
+    {0x0F12, 0x0000}, /* #REG_0TC_PCFG_usFrTimeType                           */
+    {0x0F12, 0x0002}, /* #REG_0TC_PCFG_FrRateQualityType 01:Always achieve the best frame rate. 02:Always achieve the best possible image quality (no-binning mode) */
+    /*=================S5K5CAGX_CAM_NOM_MAX_FR_TIME,S5K5CAGX_CAM_NOM_MIN_FR_TIME 30fps~15fps (Arima Use)==================*/
+    {0x0F12, 0x03E8}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 10fps */
+    {0x0F12, 0x029A}, /* #REG_0TC_PCFG_usMaxFrTimeMsecMult10 - 15fps */
+    /*0x0F12, 0x014D,*/ /* #REG_0TC_PCFG_usMinFrTimeMsecMult10 - 30fps */
+    /*==========================================================================================*/
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    {0x0F12, 0x0000},
+    
+    /* New Configuration FW Sync Preview */
+    {0x002A, 0x023C},
+    {0x0F12, 0x0000},
+    {0x002A, 0x0240},
+    {0x0F12, 0x0001},
+    {0x002A, 0x0230},
+    {0x0F12, 0x0001},
+    {0x002A, 0x023E},
+    {0x0F12, 0x0001},
+    {0x002A, 0x0220},
+    {0x0F12, 0x0001},
+    {0x0F12, 0x0001},
+    
+    {0x0028, 0xD000},
+    {0x002A, 0x1000},
+    {0x0F12, 0x0001},
+  };
+  
+  /* Initialization sequence for WVGA resolution (800x480)*/
+  static const uint16_t S5K5CAG_WVGA[][2]=
+  {
+    /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
+    /*# Size: VGA 800x480                                   */
+    {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x0F12, 0x0320}, /* #REG_0TC_PCFG_usWidth  - 800 */
+    {0x0F12, 0x01E0}, /* #REG_0TC_PCFG_usHeight - 480 */
+  };
+  
+  /* Initialization sequence for VGA resolution (640x480)*/
+  static const uint16_t S5K5CAG_VGA[][2]=
+  {
+    /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
+    /*# Size: VGA 640x480                                   */
+    {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x0F12, 0x0280}, /* #REG_0TC_PCFG_usWidth  - 640 */
+    {0x0F12, 0x01E0}, /* #REG_0TC_PCFG_usHeight - 480 */
+  };
+  
+  /* Initialization sequence for 480x272 resolution */
+  static const uint16_t S5K5CAG_480x272[][2]=
+  {
+    /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
+    /*# Size: 480x272                                       */
+    {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x0F12, 0x01e0}, /* #REG_0TC_PCFG_usWidth  - 480 */
+    {0x0F12, 0x0110}, /* #REG_0TC_PCFG_usHeight - 272 */
+  };
+  
+  /* Initialization sequence for QVGA resolution (320x240) */
+  static const uint16_t S5K5CAG_QVGA[][2]=
+  {
+    /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
+    /*# Size: QVGA 320x240                                  */
+    {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x0F12, 0x0140}, /* #REG_0TC_PCFG_usWidth  - 320 */
+    {0x0F12, 0x00F0}, /* #REG_0TC_PCFG_usHeight - 240 */
+  };
+  
+  /* Initialization sequence for QQVGA resolution (160x120) */
+  static const uint16_t S5K5CAG_QQVGA[][2]=
+  {
+    /*  SET PREVIEW CONFIGURATION_0, Camera Normal 10~30fps */
+    /*# Size: QQVGA 160x120                                 */
+    {0x0028, 0x7000}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x002A, 0x026C}, /* SET PREVIEW CONFIGURATION_0  */
+    {0x0F12, 0x00A0}, /* #REG_0TC_PCFG_usWidth  - 160 */
+    {0x0F12, 0x0078}, /* #REG_0TC_PCFG_usHeight - 120 */
+  };
+  
+  /* Check if resolution is supported */
+  if(Resolution > S5K5CAG_R800x480)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  else
+  {    
+    /* Set specific parameters for each resolution */
+    switch (Resolution)
+    {
+    case S5K5CAG_R160x120:
+      for(index=0; index<(sizeof(S5K5CAG_QQVGA)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_QQVGA[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_QQVGA[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;
+    case S5K5CAG_R320x240:
+      for(index=0; index<(sizeof(S5K5CAG_QVGA)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_QVGA[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_QVGA[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;
+    case S5K5CAG_R480x272:
+      for(index=0; index<(sizeof(S5K5CAG_480x272)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_480x272[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_480x272[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;
+    case S5K5CAG_R640x480:
+      for(index=0; index<(sizeof(S5K5CAG_VGA)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_VGA[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_VGA[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;
+    case S5K5CAG_R800x480:
+      for(index=0; index<(sizeof(S5K5CAG_WVGA)/4U); index++)
+      {
+        if(ret != S5K5CAG_ERROR)
+        {
+          tmp = S5K5CAG_WVGA[index][1];
+          if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_WVGA[index][0], &tmp, 2) != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          else
+          {
+            (void)S5K5CAG_Delay(pObj, 1);
+          }
+        }
+      }
+      break;        
+    default:
       break;
     }
-  case CAMERA_COLOR_EFFECT:
-    {     
-      /* Reset previous color effect settings */
-      CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000);  /* REG_TC_DBG_ReInitCmd register (0x700004D6) */
-      CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04D6);  /* REG_TC_DBG_ReInitCmd register */
-      CAMERA_IO_Write(DeviceAddr, 0x0F12, 0x0001);
-      CAMERA_Delay(100); /* Wait for 100ms */
-
-      if (value_tmp == S5K5CAG_COLOR_EFFECT_ANTIQUE)
-      {
-        /* Sepia color effect */
-        CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_TC_GP_SpecialEffects register (0x70000021E) */
-        CAMERA_IO_Write(DeviceAddr, 0x002A, 0x021E); /* REG_TC_GP_SpecialEffects register */
-        CAMERA_IO_Write(DeviceAddr, 0x0F12, value_tmp);
-      }
-      else
-      {
-        /* Reset previous special effect view, restore normal view */
-        CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_TC_GP_SpecialEffects register (0x70000021E) */
-        CAMERA_IO_Write(DeviceAddr, 0x002A, 0x021E); /* REG_TC_GP_SpecialEffects register */
-        CAMERA_IO_Write(DeviceAddr, 0x0F12, S5K5CAG_BLACK_WHITE_NORMAL);
-
-        switch(value_tmp)
-        {
-          case S5K5CAG_COLOR_EFFECT_RED :     /* Red color effect */
-            r_gain = 0xA0;  /* Red gain set to a high level */
-            g_gain = 0x40;  /* Green gain set to a low level */
-            b_gain = 0x50;  /* Blue gain set to a low level */
-            break;
-
-          case S5K5CAG_COLOR_EFFECT_GREEN :   /* Green color effect */
-            r_gain = 0x60;  /* Red gain set to a low level */
-            g_gain = 0xA0;  /* Green gain set to a high level */
-            b_gain = 0x60;  /* Blue gain set to a low level */
-            break;
-
-          case S5K5CAG_COLOR_EFFECT_BLUE :    /* Blue color effect : */
-            r_gain = 0x30;  /* Red gain set to a low level */
-            g_gain = 0x30;  /* Green gain set to a low level */
-            b_gain = 0xA0;  /* Blue gain set to a high level */
-            break;
-          default :                           /* No color effect applied */
-            value_tmp = S5K5CAG_COLOR_EFFECT_NONE;
-            break;
-        }
-
-        if (value_tmp != S5K5CAG_COLOR_EFFECT_NONE)
-        {
-          /* Set red gain */
-          CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_SF_USER_Rgain register (0x700004A0) */
-          CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04A0); /* REG_SF_USER_Rgain register */
-          CAMERA_IO_Write(DeviceAddr, 0x0F12, r_gain);
-
-          CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_SF_USER_RgainChanged register (0x700004A2) */
-          CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04A2); /* REG_SF_USER_RgainChanged */
-          CAMERA_IO_Write(DeviceAddr, 0x0F12, 0x1);
-
-          /* Set green gain */
-          CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_SF_USER_Ggain register (0x700004A4) */
-          CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04A4); /* REG_SF_USER_Ggain register */
-          CAMERA_IO_Write(DeviceAddr, 0x0F12, g_gain);
-
-          CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_SF_USER_GgainChanged register (0x700004A6) */
-          CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04A6); /* REG_SF_USER_GgainChanged */
-          CAMERA_IO_Write(DeviceAddr, 0x0F12, 0x1);
-
-          /* Set blue gain */
-          CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_SF_USER_Bgain register (0x700004A8) */
-          CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04A8); /* REG_SF_USER_Bgain register */
-          CAMERA_IO_Write(DeviceAddr, 0x0F12, b_gain);
-
-          CAMERA_IO_Write(DeviceAddr, 0x0028, 0x7000); /* REG_SF_USER_BgainChanged register (0x700004AA) */
-          CAMERA_IO_Write(DeviceAddr, 0x002A, 0x04AA); /* REG_SF_USER_BgainChanged */
-          CAMERA_IO_Write(DeviceAddr, 0x0F12, 0x1);
-        }
-      }
-      break;
-    }     
-  default:
+    
+    for(index=0; index<(sizeof(S5K5CAG_RES)/4U); index++)
     {
-      break;
+      if(ret != S5K5CAG_ERROR)
+      {
+        tmp = S5K5CAG_RES[index][1];
+        if(s5k5cag_write_reg(&pObj->Ctx, S5K5CAG_RES[index][0], &tmp, 2) != S5K5CAG_OK)
+        {
+          ret = S5K5CAG_ERROR;
+        }
+        else
+        {
+          (void)S5K5CAG_Delay(pObj, 1);
+        }
+      }
     }
   }
+  
+  return ret;
 }
 
 /**
   * @brief  Read the S5K5CAG Camera identity.
-  * @param  DeviceAddr: Device address on communication Bus.
-  * @retval the S5K5CAG ID
+  * @param  pObj  pointer to component object
+  * @param  Id    pointer to component ID
+  * @retval Component status
   */
-uint16_t s5k5cag_ReadID(uint16_t DeviceAddr)
+int32_t S5K5CAG_ReadID(S5K5CAG_Object_t *pObj, uint32_t *Id)
 {
-  /* Initialize I2C */
-  CAMERA_IO_Init();
+  int32_t ret;
+  uint16_t val;
   
-  /* Prepare the sensor to read the Camera ID */
-  CAMERA_IO_Write(DeviceAddr, 0xFCFC, 0x0000);  /* page 0x0000 */
+  /* Initialize I2C */
+  pObj->IO.Init();
+  
+  /* Prepare the camera to be configured */
+  val = 0x0000;
+  if(s5k5cag_write_reg(&pObj->Ctx, 0xFCFC, &val, 2) != S5K5CAG_OK)
+  {
+    ret = S5K5CAG_ERROR;
+  }/* Prepare the sensor to read the Camera ID */
+  else if(s5k5cag_read_reg(&pObj->Ctx, S5K5CAG_INFO_CHIPID1, &val, 2) != S5K5CAG_OK)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  else
+  {
+    *Id = val;
+    ret = S5K5CAG_OK;
+  }
+  /* Component status */
+  return ret;
+}
 
-  /* Get the camera ID */
-  /* INFO_chipId1 @ 0x00000040 */
-  return (CAMERA_IO_Read(DeviceAddr, S5K5CAG_INFO_CHIPID1));
+/**
+  * @brief  Read the S5K5CAG Camera Capabilities.
+  * @param  pObj          pointer to component object
+  * @param  Capabilities  pointer to component Capabilities
+  * @retval Component status
+  */
+int32_t S5K5CAG_GetCapabilities(S5K5CAG_Object_t *pObj, S5K5CAG_Capabilities_t *Capabilities)
+{
+  int32_t ret;
+  
+  if(pObj == NULL)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  else
+  {
+    Capabilities->Config_Brightness    = 1;
+    Capabilities->Config_Contrast      = 1;
+    Capabilities->Config_HueDegree     = 0;
+    Capabilities->Config_LightMode     = 0;
+    Capabilities->Config_MirrorFlip    = 0;
+    Capabilities->Config_NightMode     = 0;
+    Capabilities->Config_Resolution    = 1;
+    Capabilities->Config_Saturation    = 0;
+    Capabilities->Config_SpecialEffect = 1;
+    Capabilities->Config_Zoom          = 0;
+    
+    ret = S5K5CAG_OK;
+  }
+  
+  return ret;
+}
+
+/**
+  * @brief  Set the S5K5CAG camera Special Effect.
+  * @param  pObj  pointer to component object
+  * @param  Effect Effect to be configured
+  * @retval Component status
+  */
+int32_t S5K5CAG_SetColorEffect(S5K5CAG_Object_t *pObj, uint32_t Effect)
+{
+  int32_t ret;  
+  uint16_t r_gain;
+  uint16_t g_gain;
+  uint16_t b_gain;
+  uint16_t tmp;
+  
+  /* Reset previous color effect settings */
+  tmp = 0x7000;
+  ret = s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+  if(ret == S5K5CAG_OK)
+  {
+    tmp = 0x04D6;
+    ret = s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2); 
+  }
+  if(ret == S5K5CAG_OK)
+  {
+    tmp = 0x0001;
+    ret = s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2); 
+  }
+  if(ret == S5K5CAG_OK)
+  {
+    /* Wait for 100ms */
+    (void)S5K5CAG_Delay(pObj, 100); 
+    if(Effect == S5K5CAG_COLOR_EFFECT_SEPIA)
+    {
+      /* Sepia color effect */
+      tmp = 0x7000;
+      ret = s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+      if(ret == S5K5CAG_OK)
+      {
+        tmp = 0x021E;
+        ret = s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2); 
+      }
+      if(ret == S5K5CAG_OK)
+      {
+        tmp = 0x0004;
+        ret = s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2); 
+      }
+      if(ret != S5K5CAG_OK)
+      {
+        ret = S5K5CAG_ERROR;
+      }
+    }
+    else
+    {
+      /* Reset previous special effect view, restore normal view */
+      tmp = 0x7000;
+      ret = s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+      if(ret == S5K5CAG_OK)
+      {
+        tmp = 0x021E;
+        ret = s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2); 
+      }
+      if(ret == S5K5CAG_OK)
+      {
+        tmp = 0x0000;
+        ret = s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2); 
+      }
+      if(ret == S5K5CAG_OK)
+      {
+        switch(Effect)
+        {
+        case S5K5CAG_COLOR_EFFECT_NONE:
+          /* Normal view already restored: nothing to do */
+          ret = S5K5CAG_OK;
+          break;
+          
+        case S5K5CAG_COLOR_EFFECT_BLUE:
+        case S5K5CAG_COLOR_EFFECT_RED:
+        case S5K5CAG_COLOR_EFFECT_GREEN:
+          if(Effect == S5K5CAG_COLOR_EFFECT_BLUE)
+          {
+            r_gain = 0x30;  /* Red gain set to a low level */
+            g_gain = 0x30;  /* Green gain set to a low level */
+            b_gain = 0xA0;  /* Blue gain set to a high level */
+          }
+          else if(Effect == S5K5CAG_COLOR_EFFECT_RED)
+          {
+            r_gain = 0xA0;  /* Red gain set to a high level */
+            g_gain = 0x40;  /* Green gain set to a low level */
+            b_gain = 0x50;  /* Blue gain set to a low level */	  
+          }
+          else /* S5K5CAG_COLOR_EFFECT_GREEN */
+          {
+            r_gain = 0x60;  /* Red gain set to a low level */
+            g_gain = 0xA0;  /* Green gain set to a high level */
+            b_gain = 0x60;  /* Blue gain set to a low level */	  
+          }
+          /* Set red gain */
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04A0;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &r_gain, 2);
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04A2;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          tmp = 0x0001;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          
+          /* Set green gain */
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04A4;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &g_gain, 2);
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04A6;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          tmp = 0x0001;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          
+          /* Set blue gain */
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04A8;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &b_gain, 2);
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04AA;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          tmp = 0x0001;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          if(ret != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          break; 
+        case S5K5CAG_COLOR_EFFECT_BW:
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04D6;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          tmp = 0x0001;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          if(ret == S5K5CAG_OK) 
+          { 
+            /* Wait for 100ms */ 
+            (void)S5K5CAG_Delay(pObj, 100);
+            tmp = 0x7000;
+            ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+            tmp = 0x021E;
+            ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+            tmp = 0x0001;
+            ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          }  
+          if(ret != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          break;    
+        case S5K5CAG_COLOR_EFFECT_NEGATIVE:
+          tmp = 0x7000;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+          tmp = 0x04D6;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+          tmp = 0x0001;
+          ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          if(ret == S5K5CAG_OK) 
+          { 
+            /* Wait for 100ms */ 
+            (void)S5K5CAG_Delay(pObj, 100);
+            tmp = 0x7000;
+            ret += s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+            tmp = 0x021E;
+            ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+            tmp = 0x0003;
+            ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+          }  
+          if(ret != S5K5CAG_OK)
+          {
+            ret = S5K5CAG_ERROR;
+          }
+          break;
+          
+        default :
+          ret = S5K5CAG_OK;
+          break; 
+        }
+      }
+    }
+  }
+  
+  return ret;
+}
+
+/**
+  * @brief  Set the S5K5CAG camera Brightness Level.
+  * @note   The brightness of S5K5CAG could be adjusted. Higher brightness will 
+  *         make the picture more bright. The side effect of higher brightness 
+  *         is the picture looks foggy.
+  * @param  pObj  pointer to component object
+  * @param  Level Value to be configured
+  * @retval Component status
+  */
+int32_t S5K5CAG_SetBrightness(S5K5CAG_Object_t *pObj, int32_t Level)
+{
+  int32_t ret;
+  const uint16_t brightness_level[] = {0x0080U, 0x0080U, 0x0080U, 0x0050U, 0x0000U, 0xFFC0U, 0xFF00U, 0xFF00U, 0xFF00U};
+  uint16_t tmp;
+  
+  /* Set brightness */
+  tmp = 0x7000;
+  ret = s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+  tmp = 0x020C;
+  ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+  tmp = brightness_level[Level + 4];
+  ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+  if(ret != S5K5CAG_OK)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+  
+  return ret;
+}
+	
+/**
+  * @brief  Set the S5K5CAG camera Contrast Level.
+  * @note   The contrast of S5K5CAG could be adjusted. Higher contrast will make 
+  *         the picture sharp. But the side effect is loosing dynamic range.
+  * @param  pObj  pointer to component object
+  * @param  Level Value to be configured
+  * @retval Component status
+  */
+int32_t S5K5CAG_SetContrast(S5K5CAG_Object_t *pObj, int32_t Level)
+{
+  int32_t ret;
+  const uint16_t contrast_level[] = {0x0080U, 0x0080U, 0x0080U, 0x0050U, 0x0000U, 0xFFC0U, 0xFF80U, 0xFF80U, 0xFF80U};
+  uint16_t tmp;
+  
+  /* Set contrast */
+  tmp = 0x7000;
+  ret = s5k5cag_write_reg(&pObj->Ctx, 0x0028, &tmp, 2);
+  tmp = 0x020E;
+  ret += s5k5cag_write_reg(&pObj->Ctx, 0x002A, &tmp, 2);
+  tmp = contrast_level[Level + 4];
+  ret += s5k5cag_write_reg(&pObj->Ctx, 0x0F12, &tmp, 2);
+  if(ret != S5K5CAG_OK)
+  {
+    ret = S5K5CAG_ERROR;
+  }
+
+  return ret;
 }
 
 /******************************************************************************
                             Static Functions
 *******************************************************************************/
 /**
-  * @brief  Convert input values into s5k5cag parameters.
-  * @param  feature: Camera feature to be configured
-  * @param  value: Value to be configured
-  * @retval The converted value
+  * @brief This function provides accurate delay (in milliseconds)
+  * @param pObj pointer to component object
+  * @param Delay specifies the delay time length, in milliseconds
+  * @retval Component status
   */
-static uint32_t s5k5cag_ConvertValue(uint32_t feature, uint32_t value)
-{
-  uint32_t ret = 0;
-  
-  switch(feature)
+static int32_t S5K5CAG_Delay(S5K5CAG_Object_t *pObj, uint32_t Delay)
+{  
+  uint32_t tickstart;
+  tickstart = pObj->IO.GetTick();
+  while((pObj->IO.GetTick() - tickstart) < Delay)
   {
-  case CAMERA_BLACK_WHITE:
-    {
-      switch(value)
-      {
-      case CAMERA_BLACK_WHITE_BW:
-        {
-          ret =  S5K5CAG_BLACK_WHITE_BW;
-          break;
-        }
-      case CAMERA_BLACK_WHITE_NEGATIVE:
-        {
-          ret =  S5K5CAG_BLACK_WHITE_NEGATIVE;
-          break;
-        }
-      case CAMERA_BLACK_WHITE_BW_NEGATIVE:
-        {
-          ret =  S5K5CAG_BLACK_WHITE_BW_NEGATIVE;
-          break;
-        }
-      case CAMERA_BLACK_WHITE_NORMAL:
-        {
-          ret =  S5K5CAG_BLACK_WHITE_NORMAL;
-          break;
-        }
-      default:
-        {
-          ret =  S5K5CAG_BLACK_WHITE_NORMAL;
-          break;
-        }
-      }
-      break;
-    }
-  case CAMERA_CONTRAST_BRIGHTNESS:
-    {
-      switch(value)
-      {
-      case CAMERA_BRIGHTNESS_LEVEL0:
-        {
-          ret =  S5K5CAG_BRIGHTNESS_LEVEL0;
-          break;
-        }
-      case CAMERA_BRIGHTNESS_LEVEL1:
-        {
-          ret =  S5K5CAG_BRIGHTNESS_LEVEL1;
-          break;
-        }
-      case CAMERA_BRIGHTNESS_LEVEL2:
-        {
-          ret =  S5K5CAG_BRIGHTNESS_LEVEL2;
-          break;
-        }
-      case CAMERA_BRIGHTNESS_LEVEL3:
-        {
-          ret =  S5K5CAG_BRIGHTNESS_LEVEL3;
-          break;
-        }
-      case CAMERA_BRIGHTNESS_LEVEL4:
-        {
-          ret =  S5K5CAG_BRIGHTNESS_LEVEL4;
-          break;
-        }        
-      case CAMERA_CONTRAST_LEVEL0:
-        {
-          ret =  S5K5CAG_CONTRAST_LEVEL0;
-          break;
-        }
-      case CAMERA_CONTRAST_LEVEL1:
-        {
-          ret =  S5K5CAG_CONTRAST_LEVEL1;
-          break;
-        }
-      case CAMERA_CONTRAST_LEVEL2:
-        {
-          ret =  S5K5CAG_CONTRAST_LEVEL2;
-          break;
-        }
-      case CAMERA_CONTRAST_LEVEL3:
-        {
-          ret =  S5K5CAG_CONTRAST_LEVEL3;
-          break;
-        }
-      case CAMERA_CONTRAST_LEVEL4:
-        {
-          ret =  S5K5CAG_CONTRAST_LEVEL4;
-          break;
-        }
-      default:
-        {
-          ret =  S5K5CAG_CONTRAST_LEVEL0;
-          break;
-        }
-      }
-      break;
-    }
-  case CAMERA_COLOR_EFFECT:
-    {
-      switch(value)
-      {
-      case CAMERA_COLOR_EFFECT_ANTIQUE:
-        {
-          ret =  S5K5CAG_COLOR_EFFECT_ANTIQUE;
-          break;
-        }
-      case CAMERA_COLOR_EFFECT_BLUE:
-        {
-          ret =  S5K5CAG_COLOR_EFFECT_BLUE;
-          break;
-        }
-      case CAMERA_COLOR_EFFECT_GREEN:
-        {
-          ret =  S5K5CAG_COLOR_EFFECT_GREEN;
-          break;
-        }
-      case CAMERA_COLOR_EFFECT_RED:
-        {
-          ret =  S5K5CAG_COLOR_EFFECT_RED;
-          break;
-        }
-      default:
-        {
-          ret =  S5K5CAG_COLOR_EFFECT_NONE;
-          break;
-        }
-      }
-      break;
-    default:
-      {
-        ret = 0;
-        break;
-      }    
-    }
   }
-  
-  return ret;
+  return S5K5CAG_OK;
 }
-         
+
+/**
+  * @brief  Wrap component ReadReg to Bus Read function
+  * @param  handle Component object handle
+  * @param  Reg The target register address to write
+  * @param  pData The target register value to be written
+  * @param  Length buffer size to be written
+  * @retval error status
+  */
+static int32_t S5K5CAG_ReadRegWrap(void *handle, uint16_t Reg, uint8_t* pData, uint16_t Length)
+{
+  S5K5CAG_Object_t *pObj = (S5K5CAG_Object_t *)handle;
+
+  return pObj->IO.ReadReg(pObj->IO.Address, Reg, pData, Length);
+}
+
+/**
+  * @brief  Wrap component WriteReg to Bus Write function
+  * @param  handle Component object handle
+  * @param  Reg The target register address to write
+  * @param  pData The target register value to be written
+  * @param  Length buffer size to be written
+  * @retval error status
+  */
+static int32_t S5K5CAG_WriteRegWrap(void *handle, uint16_t Reg, uint8_t* pData, uint16_t Length)
+{
+  S5K5CAG_Object_t *pObj = (S5K5CAG_Object_t *)handle;
+
+  return pObj->IO.WriteReg(pObj->IO.Address, Reg, pData, Length);
+}
+       
 /**
   * @}
   */ 

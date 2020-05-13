@@ -6,48 +6,22 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V.
+  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted, provided that the following conditions are met:
-  *
-  * 1. Redistribution of source code must retain the above copyright notice,
-  *    this list of conditions and the following disclaimer.
-  * 2. Redistributions in binary form must reproduce the above copyright notice,
-  *    this list of conditions and the following disclaimer in the documentation
-  *    and/or other materials provided with the distribution.
-  * 3. Neither the name of STMicroelectronics nor the names of other
-  *    contributors to this software may be used to endorse or promote products
-  *    derived from this software without specific written permission.
-  * 4. This software, including modifications and/or derivative works of this
-  *    software, must execute solely and exclusively on microcontroller or
-  *    microprocessor devices manufactured by or for STMicroelectronics.
-  * 5. Redistribution and use of this software other than as permitted under
-  *    this license is void and will automatically terminate your rights under
-  *    this license.
-  *
-  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT
-  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
-  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT
-  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                      www.st.com/SLA0044
   *
   ******************************************************************************
   */
 
-  /* BSPDependencies
-  - "stm32xxxxx_{eval}{discovery}{nucleo_144}.c"
-  - "stm32xxxxx_{eval}{discovery}_io.c"
-  - "stm32xxxxx_{eval}{discovery}{adafruit}_sd.c"
-  EndBSPDependencies */
+/* BSPDependencies
+- "stm32xxxxx_{eval}{discovery}{nucleo_144}.c"
+- "stm32xxxxx_{eval}{discovery}_io.c"
+- "stm32xxxxx_{eval}{discovery}{adafruit}_sd.c"
+EndBSPDependencies */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_msc_data.h"
@@ -91,38 +65,89 @@
   * @{
   */
 
-
 /* USB Mass storage Page 0 Inquiry Data */
-const uint8_t  MSC_Page00_Inquiry_Data[] = {
-	0x00,
-	0x00,
-	0x00,
-	(LENGTH_INQUIRY_PAGE00 - 4U),
-	0x00,
-	0x80,
-	0x83
+uint8_t MSC_Page00_Inquiry_Data[LENGTH_INQUIRY_PAGE00] =
+{
+  0x00,
+  0x00,
+  0x00,
+  (LENGTH_INQUIRY_PAGE00 - 4U),
+  0x00,
+  0x80
 };
-/* USB Mass storage sense 6  Data */
-const uint8_t  MSC_Mode_Sense6_data[] = {
-	0x00,
-	0x00,
-	0x00,
-	0x00,
-	0x00,
-	0x00,
-	0x00,
-	0x00
+
+/* USB Mass storage VPD Page 0x80 Inquiry Data for Unit Serial Number */
+uint8_t MSC_Page80_Inquiry_Data[LENGTH_INQUIRY_PAGE80] =
+{
+  0x00,
+  0x80,
+  0x00,
+  LENGTH_INQUIRY_PAGE80,
+  0x20,     /* Put Product Serial number */
+  0x20,
+  0x20,
+  0x20
+ };
+
+/* USB Mass storage sense 6 Data */
+uint8_t MSC_Mode_Sense6_data[MODE_SENSE6_LEN] =
+{
+  0x22,
+  0x00,
+  0x00,
+  0x00,
+  0x08,
+  0x12,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00
 };
+
+
 /* USB Mass storage sense 10  Data */
-const uint8_t  MSC_Mode_Sense10_data[] = {
-	0x00,
-	0x06,
-	0x00,
-	0x00,
-	0x00,
-	0x00,
-	0x00,
-	0x00
+uint8_t MSC_Mode_Sense10_data[MODE_SENSE10_LEN] =
+{
+  0x00,
+  0x26,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x08,
+  0x12,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x00
 };
 /**
   * @}

@@ -6,39 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V.
+  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted, provided that the following conditions are met:
-  *
-  * 1. Redistribution of source code must retain the above copyright notice,
-  *    this list of conditions and the following disclaimer.
-  * 2. Redistributions in binary form must reproduce the above copyright notice,
-  *    this list of conditions and the following disclaimer in the documentation
-  *    and/or other materials provided with the distribution.
-  * 3. Neither the name of STMicroelectronics nor the names of other
-  *    contributors to this software may be used to endorse or promote products
-  *    derived from this software without specific written permission.
-  * 4. This software, including modifications and/or derivative works of this
-  *    software, must execute solely and exclusively on microcontroller or
-  *    microprocessor devices manufactured by or for STMicroelectronics.
-  * 5. Redistribution and use of this software other than as permitted under
-  *    this license is void and will automatically terminate your rights under
-  *    this license.
-  *
-  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT
-  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
-  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT
-  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                      www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -48,7 +22,7 @@
 #define __USB_DFU_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -141,13 +115,13 @@
 /* Other defines                                  */
 /**************************************************/
 /* Bit Detach capable = bit 3 in bmAttributes field */
-#define DFU_DETACH_MASK                (uint8_t)(1 << 4)
+#define DFU_DETACH_MASK                (1U << 4)
 #define DFU_STATUS_DEPTH               6U
 
 typedef enum
 {
   DFU_DETACH = 0U,
-  DFU_DNLOAD ,
+  DFU_DNLOAD,
   DFU_UPLOAD,
   DFU_GETSTATUS,
   DFU_CLRSTATUS,
@@ -159,7 +133,7 @@ typedef  void (*pFunction)(void);
 
 
 /**********  Descriptor of DFU interface 0 Alternate setting n ****************/
-#define USBD_DFU_IF_DESC(n)            0x09,   /* bLength: Interface Descriptor size */ \
+#define USBD_DFU_IF_DESC(n)           0x09,   /* bLength: Interface Descriptor size */ \
                                       USB_DESC_TYPE_INTERFACE,   /* bDescriptorType */ \
                                       0x00,   /* bInterfaceNumber: Number of Interface */ \
                                       (n),      /* bAlternateSetting: Alternate setting */ \
@@ -170,9 +144,9 @@ typedef  void (*pFunction)(void);
                                       USBD_IDX_INTERFACE_STR + (n) + 1U /* iInterface: Index of string descriptor */ \
 
 #define TRANSFER_SIZE_BYTES(size)      ((uint8_t)(size)), /* XFERSIZEB0 */\
-                                       ((uint8_t)(size >> 8)) /* XFERSIZEB1 */
+                                       ((uint8_t)((size) >> 8)) /* XFERSIZEB1 */
 
-#define IS_PROTECTED_AREA(add)         (uint8_t)(((add >= 0x08000000) && (add < (APP_DEFAULT_ADD)))? 1:0)
+#define IS_PROTECTED_AREA(add)         (uint8_t)((((add) >= 0x08000000) && ((add) < (APP_DEFAULT_ADD)))? 1:0)
 
 /**
   * @}
@@ -188,31 +162,30 @@ typedef struct
   union
   {
     uint32_t d32[USBD_DFU_XFER_SIZE / 4U];
-    uint8_t  d8[USBD_DFU_XFER_SIZE];
-  }buffer;
+    uint8_t d8[USBD_DFU_XFER_SIZE];
+  } buffer;
 
-  uint8_t              dev_state;
-  uint8_t              dev_status[DFU_STATUS_DEPTH];
-  uint8_t              manif_state;
+  uint32_t wblock_num;
+  uint32_t wlength;
+  uint32_t data_ptr;
+  uint32_t alt_setting;
 
-  uint32_t             wblock_num;
-  uint32_t             wlength;
-  uint32_t             data_ptr;
-  uint32_t             alt_setting;
-}
-USBD_DFU_HandleTypeDef;
+  uint8_t dev_status[DFU_STATUS_DEPTH];
+  uint8_t ReservedForAlign[2];
+  uint8_t dev_state;
+  uint8_t manif_state;
+} USBD_DFU_HandleTypeDef;
 
 typedef struct
 {
-  const uint8_t* pStrDesc;
-  uint16_t (* Init)     (void);
-  uint16_t (* DeInit)   (void);
-  uint16_t (* Erase)    (uint32_t Add);
-  uint16_t (* Write)    (uint8_t *src, uint8_t *dest, uint32_t Len);
-  uint8_t* (* Read)     (uint8_t *src, uint8_t *dest, uint32_t Len);
+  const uint8_t *pStrDesc;
+  uint16_t (* Init)(void);
+  uint16_t (* DeInit)(void);
+  uint16_t (* Erase)(uint32_t Add);
+  uint16_t (* Write)(uint8_t *src, uint8_t *dest, uint32_t Len);
+  uint8_t *(* Read)(uint8_t *src, uint8_t *dest, uint32_t Len);
   uint16_t (* GetStatus)(uint32_t Add, uint8_t cmd, uint8_t *buff);
-}
-USBD_DFU_MediaTypeDef;
+} USBD_DFU_MediaTypeDef;
 /**
   * @}
   */
@@ -231,8 +204,8 @@ USBD_DFU_MediaTypeDef;
   * @{
   */
 
-extern USBD_ClassTypeDef  USBD_DFU;
-#define USBD_DFU_CLASS    &USBD_DFU
+extern USBD_ClassTypeDef USBD_DFU;
+#define USBD_DFU_CLASS &USBD_DFU
 /**
   * @}
   */
@@ -240,8 +213,8 @@ extern USBD_ClassTypeDef  USBD_DFU;
 /** @defgroup USB_CORE_Exported_Functions
   * @{
   */
-uint8_t  USBD_DFU_RegisterMedia    (USBD_HandleTypeDef   *pdev,
-                                    USBD_DFU_MediaTypeDef *fops);
+uint8_t USBD_DFU_RegisterMedia(USBD_HandleTypeDef *pdev,
+                               USBD_DFU_MediaTypeDef *fops);
 /**
   * @}
   */
