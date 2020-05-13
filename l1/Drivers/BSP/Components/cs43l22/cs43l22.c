@@ -2,35 +2,17 @@
   ******************************************************************************
   * @file    cs43l22.c
   * @author  MCD Application Team
-  * @version V2.0.2
-  * @date    06-October-2015
   * @brief   This file provides the CS43L22 Audio Codec driver.   
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -63,7 +45,7 @@
 /** @defgroup CS43L22_Private_Defines
   * @{
   */
-#define VOLUME_CONVERT(Volume)    (((Volume) > 100)? 100:((uint8_t)(((Volume) * 255) / 100)))  
+#define VOLUME_CONVERT(Volume)    (((Volume) > 100)? 255:((uint8_t)(((Volume) * 255) / 100)))  
 /* Uncomment this line to enable verifying data sent to codec after each write 
    operation (for debug purpose) */
 #if !defined (VERIFY_WRITTENDATA)  
@@ -339,7 +321,8 @@ uint32_t cs43l22_Stop(uint16_t DeviceAddr, uint32_t CodecPdwnMode)
   * @brief Sets higher or lower the codec volume level.
   * @param DeviceAddr: Device address on communication Bus.   
   * @param Volume: a byte value from 0 to 255 (refer to codec registers 
-  *         description for more details).
+  *                description for more details).
+  *         
   * @retval 0 if correct communication, else wrong communication
   */
 uint32_t cs43l22_SetVolume(uint16_t DeviceAddr, uint8_t Volume)
@@ -347,7 +330,7 @@ uint32_t cs43l22_SetVolume(uint16_t DeviceAddr, uint8_t Volume)
   uint32_t counter = 0;
   uint8_t convertedvol = VOLUME_CONVERT(Volume);
 
-  if(Volume > 0xE6)
+  if(convertedvol > 0xE6)
   {
     /* Set the Master volume */
     counter += CODEC_IO_Write(DeviceAddr, CS43L22_REG_MASTER_A_VOL, convertedvol - 0xE7); 
