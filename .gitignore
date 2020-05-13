@@ -1,0 +1,14 @@
+.github/
+_htmresc/
+Documentation/
+docs/
+**/Lib/ARM/
+**/Lib/IAR/
+*/Middlewares/*
+!*/Middlewares/ST/
+*/Utilities/Media
+*/Utilities/PC_Software
+*/Projects
+*.pdf
+*.rtf
+*.md
