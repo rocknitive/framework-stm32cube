@@ -3,5 +3,5 @@
 	"name": "framework-stm32cube",
 	"system": "*",
 	"url": "http://www.st.com/en/embedded-software/stm32cube-embedded-software.html",
-	"version": "2.0.181130"
+	"version": "2.1.200518"
 }

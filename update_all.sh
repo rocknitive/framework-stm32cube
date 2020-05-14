@@ -9,3 +9,4 @@
 ./update.sh git@github.com:STMicroelectronics/STM32CubeL0.git l0
 ./update.sh git@github.com:STMicroelectronics/STM32CubeL1.git l1
 ./update.sh git@github.com:STMicroelectronics/STM32CubeL4.git l4
+./update.sh git@github.com:STMicroelectronics/STM32CubeG0.git g0
