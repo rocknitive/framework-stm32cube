@@ -1,3 +1,4 @@
+.DS_Store
 .github/
 _htmresc/
 Documentation/
@@ -11,4 +12,3 @@ docs/
 */Projects
 *.pdf
 *.rtf
-*.md
