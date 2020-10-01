@@ -23,7 +23,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "utilities_conf.h"
-#include "basic_gui.h"
+#include "stm32_lcd.h"
 
 /** @addtogroup Utilities
   * @{
@@ -100,7 +100,7 @@ extern UTIL_LCD_TRACE_Ctx_t LcdTrace_Ctx;
   * @{
   */
 #define  LCD_ErrTrace(...)    do { \
-                                 LcdTrace_Ctx.LineColor = GUI_COLOR_RED;\
+                                 LcdTrace_Ctx.LineColor = UTIL_LCD_COLOR_RED;\
                                  printf("ERROR: ") ;\
                                  printf(__VA_ARGS__);\
                                  LcdTrace_Ctx.LineColor = LCD_TRACE_DEFAULT_COLOR;\
@@ -113,7 +113,7 @@ extern UTIL_LCD_TRACE_Ctx_t LcdTrace_Ctx;
 
 
 #define  LCD_DbgTrace(...)    do { \
-                                 LcdTrace_Ctx.LineColor = GUI_COLOR_CYAN;\
+                                 LcdTrace_Ctx.LineColor = UTIL_LCD_COLOR_CYAN;\
                                  printf(__VA_ARGS__);\
                                  LcdTrace_Ctx.LineColor = LCD_TRACE_DEFAULT_COLOR;\
                                }while (0)
